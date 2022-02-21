@@ -14,15 +14,12 @@ class LoginController extends Controller
      * @return \Illuminate\Http\Response
      * 
      */
-
-    public function getJson(Request $request) {
+    public function index(Request $request)
+    {
         $item = $request->all();
         return $item;
     }
-    public function index()
-    {
-        //
-    }
+    
     public function create()
     {
         //

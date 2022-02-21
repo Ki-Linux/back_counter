@@ -1,8 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-//追加
-use App\Http\Controllers\LoginController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -19,4 +18,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('logins', [LoginController::class,'getJson']);
+//Route::get('logins', [LoginController::class,'index']);
