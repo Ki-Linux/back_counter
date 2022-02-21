@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+//追加
+use App\login;
 
 class LoginController extends Controller
 {
@@ -10,12 +12,16 @@ class LoginController extends Controller
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
+     * 
      */
+
+    public function getJson(Request $request) {
+        $item = $request->all();
+        return $item;
+    }
     public function index()
     {
         //
-        $items = Restdata::all();
-        return $items->toArray();
     }
     public function create()
     {

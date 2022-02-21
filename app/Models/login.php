@@ -15,4 +15,4 @@ class login extends Model
     ];
 }
 
-$fillable::create($request->all());
+//$fillable::create($request->all());
