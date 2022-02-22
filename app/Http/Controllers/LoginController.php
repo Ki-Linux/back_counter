@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 //追加
-use App\login;
+use App\Models\Login;
 
 class LoginController extends Controller
 {
@@ -14,12 +14,12 @@ class LoginController extends Controller
      * @return \Illuminate\Http\Response
      * 
      */
-    public function index(Request $request)
+    public function index()
     {
-        $item = $request->all();
-        return $item;
+        //$item = Login::all();
+        //return $item;
     }
-    
+
     public function create()
     {
         //
@@ -32,7 +32,14 @@ class LoginController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $login = new Login();
+
+        $login->create([
+            'mail' => $request->mail,
+            'username' => $request->username,
+            'password' => $request->password,
+        ]);
+
     }
 
     /**

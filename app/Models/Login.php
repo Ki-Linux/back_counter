@@ -5,14 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class login extends Model
+class Login extends Model
 {
-    //use HasFactory;
+   // use HasFactory;
+    protected $table = "login";
     protected $fillable = [
-        'mail',
-        'username',
-        'password',
+        'mail', 'username', 'password',
     ];
 }
-
-//$fillable::create($request->all());
