@@ -34,12 +34,17 @@ class LoginController extends Controller
     public function store(Request $request)
     {
         $login = new Login();
-
-        $login->create([
-            'mail' => $request->mail,
-            'username' => $request->username,
-            'password' => $request->password,
-        ]);
+        $item = Login::where('mail', 'sei@gmail.com')->first(['mail']);
+        //$item = $login::where('mail', $reuqest->mail);
+        
+        if($item) {
+            $login->create([
+                'mail' => $request->mail,
+                'username' => $request->username,
+                'password' => $request->password,
+            ]);
+        }
+        
 
     }
 
