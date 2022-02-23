@@ -4,7 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 //追加
+use App\Http\Controllers\Controller;
 use App\Models\Login;
+//use App\Models\User;
+use Hash;
+use Illuminate\Validation\ValidationException;
+//use Illuminate\Support\Facades\Validator;
 
 class LoginController extends Controller
 {
@@ -17,17 +22,36 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
+        $mail = $request->mail;
+        $password = $request->password; 
+
+        //$user = User::where('mail', $mail)->first();
+
         $login = new Login();
-        $item = Login::where('mail', 'sei@gmail.com')->first(['mail']);
+        $item = Login::where('mail', $mail)->first();
         //$item = $login::where('mail', $reuqest->mail);
         
-        if($item) {
-            $login->create([
+        if(!$item || ! Hash::check($password, $item->password)) {
+
+           $request->validate(['error' => 'メールが違うか、パスワードが違うか']);
+           //$validator = Validator::make([], []);
+            //$validator->errors()->merge('mail', 'メールが違うか、パスワードが違うか');
+            //throw new ValidationException(['mail' => 'メールが違うか、パスワードが違うか']);
+
+            /*$login->create([
                 'mail' => $request->mail,
-                'username' => "uidfvd",
+                'username' => "d",
                 'password' => $request->password,
-            ]);
+            ]);*/
         }
+        /*$login->create([
+            'mail' => $request->mail,
+            'username' => "uidfvd",
+            'password' => $request->password,
+        ]);*/
+        $token = $item->createToken('token')->plainTextToken;
+        return response()->json(compact('token'),200);
+
     }
 
     public function index()
@@ -52,13 +76,13 @@ class LoginController extends Controller
         $item = Login::where('mail', 'sei@gmail.com')->first(['mail']);
         //$item = $login::where('mail', $reuqest->mail);
         
-        if($item) {
+        //if($item) {
             $login->create([
                 'mail' => $request->mail,
                 'username' => $request->username,
                 'password' => $request->password,
             ]);
-        }
+        //}
         
 
     }
