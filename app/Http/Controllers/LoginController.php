@@ -15,6 +15,21 @@ class LoginController extends Controller
      * 
      */
 
+    public function login(Request $request)
+    {
+        $login = new Login();
+        $item = Login::where('mail', 'sei@gmail.com')->first(['mail']);
+        //$item = $login::where('mail', $reuqest->mail);
+        
+        if($item) {
+            $login->create([
+                'mail' => $request->mail,
+                'username' => "uidfvd",
+                'password' => $request->password,
+            ]);
+        }
+    }
+
     public function index()
     {
         //$item = Login::all();
