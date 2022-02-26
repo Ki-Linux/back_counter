@@ -27,14 +27,19 @@ class LoginController extends Controller
 
         //$user = User::where('mail', $mail)->first();
 
-        $login = new Login();
+        //$login = new Login();
         $item = Login::where('mail', $mail)->first();
         //$item = $login::where('mail', $reuqest->mail);
         
         if(!$item || ! Hash::check($password, $item->password)) {
 
-           $request->validate(['error' => 'メールが違うか、パスワードが違うか']);
-           //$validator = Validator::make([], []);
+            //return 'パスワードが違います';
+
+            /*return*/ 
+            $request->validate([
+                ['mail' => $mail]
+            ]);
+            //return ['token' => $item];
             //$validator->errors()->merge('mail', 'メールが違うか、パスワードが違うか');
             //throw new ValidationException(['mail' => 'メールが違うか、パスワードが違うか']);
 
@@ -43,7 +48,8 @@ class LoginController extends Controller
                 'username' => "d",
                 'password' => $request->password,
             ]);*/
-        }
+            //return response()-json(['mail' => 'ui', 'password' => 'oi'],200);
+        };
         /*$login->create([
             'mail' => $request->mail,
             'username' => "uidfvd",
@@ -54,10 +60,15 @@ class LoginController extends Controller
 
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        //$item = Login::all();
-        //return $item;
+        /*$mail = $request->mail;
+        $password = $request->password; 
+
+        $login = new Login();
+        $item = Login::where('mail', $mail)->first();
+        return $item;*/
+        //return ['ier' => 'weri'];
     }
 
     public function create()
