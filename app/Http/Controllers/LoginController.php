@@ -30,16 +30,21 @@ class LoginController extends Controller
         //$login = new Login();
         $item = Login::where('mail', $mail)->first();
         //$item = $login::where('mail', $reuqest->mail);
+        //!Hash::check($password, $item->password
         
-        if(!$item || ! Hash::check($password, $item->password)) {
+        if(!$item || $password != $item->password) {
+
+            $request->validate([
+                'mail' => 'required',
+                'password' => 'required'
+            ]);
+            return ['token' => $item];
 
             //return 'パスワードが違います';
+            
 
             /*return*/ 
-            $request->validate([
-                ['mail' => $mail]
-            ]);
-            //return ['token' => $item];
+           
             //$validator->errors()->merge('mail', 'メールが違うか、パスワードが違うか');
             //throw new ValidationException(['mail' => 'メールが違うか、パスワードが違うか']);
 
@@ -49,14 +54,18 @@ class LoginController extends Controller
                 'password' => $request->password,
             ]);*/
             //return response()-json(['mail' => 'ui', 'password' => 'oi'],200);
-        };
+        }
+        
+            $token = $item->createToken('token')->plainTextToken;
+            return response()->json(compact('token'),200);
+
         /*$login->create([
             'mail' => $request->mail,
             'username' => "uidfvd",
             'password' => $request->password,
         ]);*/
-        $token = $item->createToken('token')->plainTextToken;
-        return response()->json(compact('token'),200);
+        
+        
 
     }
 
