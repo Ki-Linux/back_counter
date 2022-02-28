@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 //追加
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\MailSendController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,6 +25,8 @@ Route::post('logins', [LoginController::class,'store']);
 Route::post('login', [LoginController::class,'login']);
 
 Route::post('login', [LoginController::class,'test']);
+
+Route::get('/mail', [MailSendController::class, 'send']);
 
 //Route::group(['middleware' => 'auth:sanctum'], function(){
 //Route::get('user', [LoginController::class, 'index']);

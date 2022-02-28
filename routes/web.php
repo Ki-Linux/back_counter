@@ -1,8 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-//tuika
-use App\Http\Controllers\MailSendController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -22,5 +21,3 @@ Route::get('/', function () {
 //Route::get('logins', [LoginController::class,'index']);
 //use Illuminate\Support\Facades\Mail;
 //use App\Mail\MailTest;
-
-Route::get('/mail', [MailSendController::class, 'send']);
