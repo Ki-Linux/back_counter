@@ -10,6 +10,15 @@ use App\Models\Login;
 use Hash;
 use Illuminate\Validation\ValidationException;
 //use Illuminate\Support\Facades\Validator;
+//use Illuminate\Support\Facades\Mail;
+//use App\Mail\TestEmail;
+//use Log;
+use Exception;
+use Log;
+use SendGrid;
+use SendGrid\Mail;
+use \Symfony\Component\HttpFoundation\Response;
+
 
 class LoginController extends Controller
 {
@@ -67,6 +76,53 @@ class LoginController extends Controller
         
         
 
+    }
+
+    public function test() {
+        $this->sendMail();
+        return view('index');
+    }
+
+    public function sendMail(Request $request)
+    {
+        //$data = ['message' => 'この内容がTest Emailの下のpタグに書かれる'];
+        //Mail::to('linuxseima@gmail.com')->send(new TestEmail($data));
+        
+
+        //return ['re' => $request];
+        $email = new \SendGrid\Mail\Mail();
+        $email->setFrom(getenv('FROM_EMAIL'), getenv('FROM_NAME'));
+        $email->setSubject("test");
+        $email->addTo('linuxseima@gmail.com');
+ 
+        $sendGrid = new \SendGrid(getenv('SENDGRID_API_KEY'));
+        $email->addContent(
+            "text/plain",
+            strval(
+                view(
+                    'emails/templates/notificationMail',
+                    compact('data')
+                )
+            )
+        );
+        $email->addContent(
+            "text/html",
+            strval(
+                view(
+                    'emails/templates/notificationMail',
+                    compact('data')
+                )
+            )
+        );
+         
+        try {
+            $sendGrid->send($email);
+            return true;
+        } catch (Exception $e) {
+            echo $e;
+            // Log::debug($e->getMessage());
+            return false;
+        }
     }
 
     public function index(Request $request)
