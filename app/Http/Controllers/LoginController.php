@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Login;
 //use App\Models\User;
 use Hash;
+//use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\MailConf;
@@ -44,13 +45,13 @@ class LoginController extends Controller
         //$item = $login::where('mail', $reuqest->mail);
         //!Hash::check($password, $item->password
         
-        if(!$item || $password != $item->password) {
+        if(!$item || !Hash::check($password, $item->password)) {
 
             $request->validate([
                 'mail' => 'required',
                 'password' => 'required'
             ]);
-            return ['token' => $item];
+            return ['token' => $item->mail];
 
             //return 'パスワードが違います';
             
@@ -155,6 +156,7 @@ class LoginController extends Controller
         $mail = $request->mail;
         $userName = $request->username;
         $password = $request->password;
+        //$code = Str::random(2);
 
         $login = new Login();
         //$item = Login::where('mail', 'sei@gmail.com')->first(['mail']);
@@ -173,9 +175,9 @@ class LoginController extends Controller
         } else {
 
             $login->create([
-                'mail' => $mail,
-                'username' => $userName,
-                'password' => $password,
+                    'mail' => $mail,
+                    'username' => $userName,
+                    'password' => Hash::make($password),
             ]);
 
             Mail::to('seima0616@ezweb.ne.jp')

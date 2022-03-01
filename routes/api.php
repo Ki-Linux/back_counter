@@ -34,6 +34,7 @@ Route::post('login', [LoginController::class,'login']);
 //});
 Route::post('saving', [LoginController::class, 'store']);
 
+
 //Route::group(['middleware' => 'auth:sanctum'], function(){
 //Route::get('user', [LoginController::class, 'index']);
 //});
