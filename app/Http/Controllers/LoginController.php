@@ -15,8 +15,8 @@ use Illuminate\Validation\ValidationException;
 //use Log;
 use Exception;
 use Log;
-use SendGrid;
-use SendGrid\Mail;
+//use SendGrid;
+//use SendGrid\Mail;
 use \Symfony\Component\HttpFoundation\Response;
 
 
@@ -38,6 +38,7 @@ class LoginController extends Controller
 
         //$login = new Login();
         $item = Login::where('mail', $mail)->first();
+        //$user_name = Login::where('username', $mail)->first();
         //$item = $login::where('mail', $reuqest->mail);
         //!Hash::check($password, $item->password
         
@@ -83,7 +84,7 @@ class LoginController extends Controller
         return view('index');
     }*/
 
-    public function sendMail(Request $request)
+    /*public function sendMail(Request $request)
     {
         //$data = ['message' => 'この内容がTest Emailの下のpタグに書かれる'];
         //Mail::to('linuxseima@gmail.com')->send(new TestEmail($data));
@@ -123,7 +124,7 @@ class LoginController extends Controller
             // Log::debug($e->getMessage());
             return false;
         }
-    }
+    }*/
 
     public function index(Request $request)
     {
@@ -149,17 +150,30 @@ class LoginController extends Controller
     public function store(Request $request)
     {
         $login = new Login();
-        $item = Login::where('mail', 'sei@gmail.com')->first(['mail']);
+        //$item = Login::where('mail', 'sei@gmail.com')->first(['mail']);
         //$item = $login::where('mail', $reuqest->mail);
-        
-        //if($item) {
+        $mail_name = Login::where('mail', $request->mail)->first();
+        $user_name = Login::where('username', $request->username)->first();
+
+        if($mail_name) {
+
+            return ['next_go' => 'not_one'];
+
+        } else if($user_name) {
+
+            return ['next_go' => 'not_two'];
+
+        } else {
+
             $login->create([
                 'mail' => $request->mail,
                 'username' => $request->username,
                 'password' => $request->password,
             ]);
-        //}
-        
+
+            return ['next_go' => 'yes'];
+
+        }
 
     }
 

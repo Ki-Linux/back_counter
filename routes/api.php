@@ -21,7 +21,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('logins', [LoginController::class,'store']);
+//Route::post('logins', [LoginController::class,'store']);
 Route::post('login', [LoginController::class,'login']);
 
 //Route::post('login', [LoginController::class,'test']);
@@ -32,7 +32,7 @@ Route::post('login', [LoginController::class,'login']);
     Route::post('mail', [MailSendController::class, 'send']);
 
 //});
-
+Route::post('saving', [LoginController::class, 'store']);
 
 //Route::group(['middleware' => 'auth:sanctum'], function(){
 //Route::get('user', [LoginController::class, 'index']);
