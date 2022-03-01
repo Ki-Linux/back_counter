@@ -9,6 +9,8 @@ use App\Models\Login;
 //use App\Models\User;
 use Hash;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\MailConf;
 //use Illuminate\Support\Facades\Validator;
 //use Illuminate\Support\Facades\Mail;
 //use App\Mail\TestEmail;
@@ -149,11 +151,16 @@ class LoginController extends Controller
      */
     public function store(Request $request)
     {
+
+        $mail = $request->mail;
+        $userName = $request->username;
+        $password = $request->password;
+
         $login = new Login();
         //$item = Login::where('mail', 'sei@gmail.com')->first(['mail']);
         //$item = $login::where('mail', $reuqest->mail);
-        $mail_name = Login::where('mail', $request->mail)->first();
-        $user_name = Login::where('username', $request->username)->first();
+        $mail_name = Login::where('mail', $mail)->first();
+        $user_name = Login::where('username', $userName)->first();
 
         if($mail_name) {
 
@@ -166,10 +173,13 @@ class LoginController extends Controller
         } else {
 
             $login->create([
-                'mail' => $request->mail,
-                'username' => $request->username,
-                'password' => $request->password,
+                'mail' => $mail,
+                'username' => $userName,
+                'password' => $password,
             ]);
+
+            Mail::to('seima0616@ezweb.ne.jp')
+		        ->send(new MailConf($userName));
 
             return ['next_go' => 'yes'];
 
