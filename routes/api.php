@@ -24,14 +24,14 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('logins', [LoginController::class,'store']);
 Route::post('login', [LoginController::class,'login']);
 
-Route::post('login', [LoginController::class,'test']);
+//Route::post('login', [LoginController::class,'test']);
 
-Route::middleware(['cors'])->group(function(){
+//Route::middleware(['cors'])->group(function(){
 
-    Route::get('mail', [MailSendController::class, 'upload']);
+    //Route::get('mail', [MailSendController::class, 'upload']);
     Route::post('mail', [MailSendController::class, 'send']);
 
-});
+//});
 
 
 //Route::group(['middleware' => 'auth:sanctum'], function(){

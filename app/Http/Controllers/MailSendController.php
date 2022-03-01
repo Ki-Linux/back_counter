@@ -7,10 +7,18 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\MailTest;
 
+use \Symfony\Component\HttpFoundation\Response;
+use Illuminate\Validation\ValidationException;
 
 
 class MailSendController extends Controller
 {
+      /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     * 
+     */
 
     public function upload()
     {

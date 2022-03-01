@@ -78,10 +78,10 @@ class LoginController extends Controller
 
     }
 
-    public function test() {
+    /*public function test() {
         $this->sendMail();
         return view('index');
-    }
+    }*/
 
     public function sendMail(Request $request)
     {
