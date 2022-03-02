@@ -52,7 +52,7 @@ class LoginController extends Controller
                 'mail' => 'required',
                 'password' => 'required'
             ]);
-            return ['token' => $item->mail];
+            return ['token' => 'nothing'];
 
             //return 'パスワードが違います';
             

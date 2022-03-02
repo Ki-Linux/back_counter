@@ -46,14 +46,14 @@ class MailSendController extends Controller
                 Mail::to('seima0616@ezweb.ne.jp')
                     ->send(new MailTest($index->word)); //$index->word'
     
-                return ['result' => 'dddddd'];
+                return ['result' => true ];
             }
     
         }
     }
     
 
-    return ['result' => 'sdsd'];
+    return ['result' => false ];
 
     /*else {
 
