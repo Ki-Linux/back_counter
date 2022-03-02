@@ -17,6 +17,6 @@ class Login extends Authenticatable
 
     protected $table = "login";
     protected $fillable = [
-        'mail', 'username', 'password',
+        'mail', 'username', 'password', 'random',
     ];
 }

@@ -180,7 +180,7 @@ class LoginController extends Controller
                     'mail' => $mail,
                     'username' => $userName,
                     'password' => Hash::make($password),
-                    'random' => $code,
+                    'random' => Hash::make($code),
             ]);
 
             $letter->create([
