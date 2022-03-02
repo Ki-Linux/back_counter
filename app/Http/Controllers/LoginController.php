@@ -6,9 +6,10 @@ use Illuminate\Http\Request;
 //追加
 use App\Http\Controllers\Controller;
 use App\Models\Login;
+use App\Models\Letter;
 //use App\Models\User;
 use Hash;
-//use Illuminate\Support\Str;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\MailConf;
@@ -156,9 +157,10 @@ class LoginController extends Controller
         $mail = $request->mail;
         $userName = $request->username;
         $password = $request->password;
-        //$code = Str::random(2);
+        $code = Str::random(3);
 
         $login = new Login();
+        $letter = new Letter();
         //$item = Login::where('mail', 'sei@gmail.com')->first(['mail']);
         //$item = $login::where('mail', $reuqest->mail);
         $mail_name = Login::where('mail', $mail)->first();
@@ -178,10 +180,16 @@ class LoginController extends Controller
                     'mail' => $mail,
                     'username' => $userName,
                     'password' => Hash::make($password),
+                    'random' => $code,
             ]);
 
-            Mail::to('seima0616@ezweb.ne.jp')
-		        ->send(new MailConf($userName));
+            $letter->create([
+                'same' => $code,
+                'word' => $password,
+            ]);
+
+            //Mail::to('seima0616@ezweb.ne.jp')
+		    //    ->send(new MailConf($userName));
 
             return ['next_go' => 'yes'];
 
