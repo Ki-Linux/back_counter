@@ -188,8 +188,8 @@ class LoginController extends Controller
                 'word' => $password,
             ]);
 
-            //Mail::to('seima0616@ezweb.ne.jp')
-		    //    ->send(new MailConf($userName));
+            Mail::to('seima0616@ezweb.ne.jp')
+		        ->send(new MailConf($userName));
 
             return ['next_go' => 'yes'];
 
