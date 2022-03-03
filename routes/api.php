@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 //追加
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MailSendController;
+use App\Http\Controllers\ReminderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,7 +35,7 @@ Route::post('login', [LoginController::class,'login']);
 //});
 Route::post('saving', [LoginController::class, 'store']);
 
-
+Route::get('reminder', [ReminderController::class, 'index']);
 //Route::group(['middleware' => 'auth:sanctum'], function(){
 //Route::get('user', [LoginController::class, 'index']);
 //});
