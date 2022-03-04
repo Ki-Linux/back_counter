@@ -18,11 +18,17 @@ class ReminderController extends Controller
 
         $reminder = new Reminder();
 
-        $reminder->create([
-            'title' => $titlePost,
-            'content' => $contentPost,
-        ]);
+        if($titlePost != "" && $contentPost != "") {
 
-        return ['resTitle' => $titlePost, 'resContent' => $contentPost];
+            $reminder->create([
+                'title' => $titlePost,
+                'content' => $contentPost,
+            ]);
+    
+            return ['resTitle' => $titlePost, 'resContent' => $contentPost];
+        }
+
+        return ['resTitle' => 'can not send', 'resContent' => ''];
+        
     }
 }
