@@ -10,6 +10,7 @@ use \Symfony\Component\HttpFoundation\Response;
 
 class ReminderController extends Controller
 {
+
     //
     public function store(Request $request) 
     {
@@ -30,5 +31,17 @@ class ReminderController extends Controller
 
         return ['resTitle' => 'can not send', 'resContent' => ''];
         
+    }
+
+    public function index(Request $request)//リマインダーのデータを取ってくる
+    {
+
+        $userName = $request->username;
+
+        $reminder = Reminder::where('username', $userName)->get(['title', 'content']);
+        //Letter::select('*')->get();
+
+        return ['name' => $reminder];
+
     }
 }

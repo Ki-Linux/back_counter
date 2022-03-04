@@ -36,6 +36,7 @@ Route::post('login', [LoginController::class,'login']);
 Route::post('saving', [LoginController::class, 'store']);
 
 Route::post('reminder', [ReminderController::class, 'store']);
+Route::post('reminder', [ReminderController::class, 'index']);//username data send
 //Route::group(['middleware' => 'auth:sanctum'], function(){
 //Route::get('user', [LoginController::class, 'index']);
 //});
