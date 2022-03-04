@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ReminderController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -18,11 +18,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/reminder', [ReminderController::class, 'index']);
 
-Route::get('/reminderMyNaming', function() {
-    return view('reminderMyNaming');
-});
 //Route::get('logins', [LoginController::class,'index']);
 //use Illuminate\Support\Facades\Mail;
 //use App\Mail\MailTest;

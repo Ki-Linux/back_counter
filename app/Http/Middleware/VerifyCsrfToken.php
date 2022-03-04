@@ -17,7 +17,7 @@ class VerifyCsrfToken extends Middleware
         'api/login',
         'api/saving',
         'api/mail',
-        '/reminder'
+        'api/reminder',
     ];
 
    

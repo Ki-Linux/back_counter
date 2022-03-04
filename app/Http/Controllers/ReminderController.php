@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Reminder;
+use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 use \Symfony\Component\HttpFoundation\Response;
@@ -10,12 +11,18 @@ use \Symfony\Component\HttpFoundation\Response;
 class ReminderController extends Controller
 {
     //
-    public function index(Response $request) 
+    public function store(Request $request) 
     {
+        $titlePost = $request->title;
+        $contentPost = $request->content;
+
         $reminder = new Reminder();
 
         $reminder->create([
-            'content' => 'ii',
+            'title' => $titlePost,
+            'content' => $contentPost,
         ]);
+
+        return ['resTitle' => $titlePost, 'resContent' => $contentPost];
     }
 }
