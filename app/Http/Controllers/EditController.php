@@ -13,13 +13,13 @@ class EditController extends Controller
         $edit = new Edit();
 
         $edit->create([
-            'username' => 'hou',
-            'picture' => 'http://myho.com',
-            'my_comment' => '私はサッカーが好きです。',
-            'can_good' => 1,
-            'can_comment' => 1,
-            'can_see' => 1,
-            'can_top' => 1,
+            'username' => $response->username,
+            'picture' => $response->image,
+            'my_comment' => $response->comment,
+            'can_good' => $response->show_good,
+            'can_comment' => $response->others_comment,
+            'can_see' => $response->can_see,
+            'can_top' => $response->to_top,
         ]);
     }
 }
