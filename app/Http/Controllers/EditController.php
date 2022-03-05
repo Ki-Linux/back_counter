@@ -22,4 +22,22 @@ class EditController extends Controller
             'can_top' => $response->to_top,
         ]);
     }
+
+    public function index(Request $response)
+    {
+        $edit = new Edit();
+
+        $user_content = Edit::where('username', $response->username)->get(['id', 'picture', 'my_comment', 'updated_at']);
+
+        return $user_content;
+    }
+
+    public function delete(Request $request, $id)
+    {
+        //$edit = new Edit();
+
+        $user_content = Edit::where('id', $id)->delete();
+
+        return $id;
+    }
 }

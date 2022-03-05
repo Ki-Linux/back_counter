@@ -38,7 +38,9 @@ Route::post('saving', [LoginController::class, 'store']);
 Route::post('reminder', [ReminderController::class, 'store']);
 Route::post('reminder', [ReminderController::class, 'index']);//username data send
 
-Route::post('edit', [EditController::class, 'store']);
+Route::post('edit', [EditController::class, 'store']);//自分のデータを入れる
+Route::post('edit_show', [EditController::class, 'index']);//自分のデータ一覧
+Route::delete('edit_del/{id}', [EditController::class, 'delete']);//自分のデータの削除
 //Route::group(['middleware' => 'auth:sanctum'], function(){
 //Route::get('user', [LoginController::class, 'index']);
 //});
