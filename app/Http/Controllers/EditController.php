@@ -27,7 +27,19 @@ class EditController extends Controller
     {
         $edit = new Edit();
 
-        $user_content = Edit::where('username', $response->username)->get(['id', 'picture', 'my_comment', 'updated_at']);
+        $which_data = $response->id;
+        $sql_data = 'id';
+
+        
+
+        if($response->username) {
+           // $user_content = Edit::where('username', $response->username)->get(['id', 'picture', 'my_comment', 'updated_at']);
+           $which_data = $response->username;
+           $sql_data = 'username';
+        }
+
+        $user_content = Edit::where($sql_data, $which_data)->get(['id', 'picture', 'my_comment', 'updated_at']);
+
 
         return $user_content;
     }
@@ -39,5 +51,20 @@ class EditController extends Controller
         $user_content = Edit::where('id', $id)->delete();
 
         return $id;
+    }
+
+    public function update(Request $request, $id)
+    {
+
+        $user_content = Edit::where('id', $id)
+                            ->update([
+                                'picture' => $request->image,
+                                'my_comment' => $request->comment,
+                                'can_good' => $request->show_good,
+                                'can_comment' => $request->others_comment,
+                                'can_see' => $request->can_see,
+                                'can_top' => $request->to_top,
+                            ]);
+
     }
 }

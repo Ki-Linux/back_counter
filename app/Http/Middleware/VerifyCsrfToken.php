@@ -21,6 +21,7 @@ class VerifyCsrfToken extends Middleware
         'api/edit',
         'api/edit_show',
         'api/edit_del/*',
+        'api/edit_update/*',
     ];
 
    
