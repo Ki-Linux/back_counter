@@ -29,6 +29,7 @@ class EditController extends Controller
 
         $which_data = $response->id;
         $sql_data = 'id';
+        $array_send_data = ['*'];
 
         
 
@@ -36,9 +37,10 @@ class EditController extends Controller
            // $user_content = Edit::where('username', $response->username)->get(['id', 'picture', 'my_comment', 'updated_at']);
            $which_data = $response->username;
            $sql_data = 'username';
+           $array_send_data = ['id', 'picture', 'my_comment', 'updated_at'];
         }
 
-        $user_content = Edit::where($sql_data, $which_data)->get(['id', 'picture', 'my_comment', 'updated_at']);
+        $user_content = Edit::where($sql_data, $which_data)->get($array_send_data);
 
 
         return $user_content;
