@@ -17,5 +17,6 @@ class Edit extends Model
         'can_comment', 
         'can_see',
         'can_top',
+        'can_list'
     ];
 }
