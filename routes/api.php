@@ -43,6 +43,8 @@ Route::post('edit_show', [EditController::class, 'index']);//自分のデータ�
 Route::delete('edit_del/{id}', [EditController::class, 'delete']);//自分のデータの削除
 Route::put('edit_update/{id}', [EditController::class, 'update']);//自分のデータのアップデート
 Route::get('pull_all', [EditController::class, 'allData']);//自分のデータ一覧
+
+Route::get('only_top', [EditController::class, 'onlyTop']);
 //Route::group(['middleware' => 'auth:sanctum'], function(){
 //Route::get('user', [LoginController::class, 'index']);
 //});

@@ -33,6 +33,13 @@ class EditController extends Controller
 
     }
 
+    public function onlyTop(Request $response)
+    {
+        $pull_top = Edit::where('can_top', 1)->get(['picture', 'my_comment']);
+
+        return ['topData' => $pull_top];
+    }
+
     public function index(Request $response)
     {
         $edit = new Edit();
