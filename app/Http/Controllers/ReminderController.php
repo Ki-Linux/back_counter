@@ -55,8 +55,9 @@ class ReminderController extends Controller
 
         $userName = $request->username;
 
+
         $reminder = Reminder::where('username', $userName)->get(['title', 'content', 'updated_at']);
-        //Letter::select('*')->get();
+     
 
         return ['name' => $reminder];
 
