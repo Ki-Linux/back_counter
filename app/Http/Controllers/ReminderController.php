@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Reminder;
+use App\Models\Login;//
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
@@ -20,7 +21,21 @@ class ReminderController extends Controller
 
         $reminder = new Reminder();
 
-        if($titlePost != "" && $contentPost != "") {
+        if($titlePost != "" && $contentPost != "" && $userPost != "") {
+
+            if($userPost === "*") {
+
+                $logins_username = Login::select('*')->get();
+                foreach($logins_username as $login_username=>$index) {
+                    $reminder->create([
+                        'title' => $titlePost,
+                        'content' => $contentPost,
+                        'username' => $index->username,
+                    ]);
+                    //return ['resContent' => $index];
+                }
+                
+            }
 
             $reminder->create([
                 'title' => $titlePost,
@@ -28,7 +43,7 @@ class ReminderController extends Controller
                 'username' => $userPost,
             ]);
     
-        return ['resTitle' => $titlePost, 'resContent' => $contentPost, 'resName' => $userPost];
+            return ['resTitle' => $titlePost, 'resContent' => $contentPost, 'resName' => $userPost];
         }
 
         return ['resTitle' => 'can not send', 'resContent' => '', 'resName' => ''];
@@ -40,7 +55,7 @@ class ReminderController extends Controller
 
         $userName = $request->username;
 
-        $reminder = Reminder::whereIn('username', [$userName, '*'])->get(['title', 'content']);
+        $reminder = Reminder::where('username', $userName)->get(['title', 'content', 'updated_at']);
         //Letter::select('*')->get();
 
         return ['name' => $reminder];
