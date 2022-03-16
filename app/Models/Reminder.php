@@ -11,6 +11,7 @@ class Reminder extends Model
     protected $table = "reminders";
     protected $fillable = [
         'title',
-        'content'
+        'content',
+        'username',
     ];
 }

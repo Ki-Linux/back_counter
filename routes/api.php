@@ -35,7 +35,7 @@ Route::post('login', [LoginController::class,'login']);
 //});
 Route::post('saving', [LoginController::class, 'store']);
 
-Route::post('reminder', [ReminderController::class, 'store']);
+Route::post('reminder_send', [ReminderController::class, 'store']);
 Route::post('reminder', [ReminderController::class, 'index']);//username data send
 
 Route::post('edit', [EditController::class, 'store']);//自分のデータを入れる

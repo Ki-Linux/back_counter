@@ -16,6 +16,7 @@ class ReminderController extends Controller
     {
         $titlePost = $request->title;
         $contentPost = $request->content;
+        $userPost = $request->username;
 
         $reminder = new Reminder();
 
@@ -24,12 +25,13 @@ class ReminderController extends Controller
             $reminder->create([
                 'title' => $titlePost,
                 'content' => $contentPost,
+                'username' => $userPost,
             ]);
     
-            return ['resTitle' => $titlePost, 'resContent' => $contentPost];
+        return ['resTitle' => $titlePost, 'resContent' => $contentPost, 'resName' => $userPost];
         }
 
-        return ['resTitle' => 'can not send', 'resContent' => ''];
+        return ['resTitle' => 'can not send', 'resContent' => '', 'resName' => ''];
         
     }
 
@@ -38,7 +40,7 @@ class ReminderController extends Controller
 
         $userName = $request->username;
 
-        $reminder = Reminder::where('username', $userName)->get(['title', 'content']);
+        $reminder = Reminder::whereIn('username', [$userName, '*'])->get(['title', 'content']);
         //Letter::select('*')->get();
 
         return ['name' => $reminder];
