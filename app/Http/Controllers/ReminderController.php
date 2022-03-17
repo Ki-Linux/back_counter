@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Reminder;
-use App\Models\Login;//
+use App\Models\Login;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
@@ -21,7 +21,7 @@ class ReminderController extends Controller
 
         $reminder = new Reminder();
 
-        if($titlePost != "" && $contentPost != "" && $userPost != "") {
+        if($titlePost != "" && $contentPost != "") {
 
             if($userPost === "*") {
 
@@ -31,9 +31,12 @@ class ReminderController extends Controller
                         'title' => $titlePost,
                         'content' => $contentPost,
                         'username' => $index->username,
+                        'watched' => 0,
                     ]);
-                    //return ['resContent' => $index];
+                    
                 }
+
+                return ['resTitle' => $titlePost, 'resContent' => $contentPost, 'resName' => 'name'];
                 
             }
 
@@ -41,6 +44,7 @@ class ReminderController extends Controller
                 'title' => $titlePost,
                 'content' => $contentPost,
                 'username' => $userPost,
+                'watched' => 0,
             ]);
     
             return ['resTitle' => $titlePost, 'resContent' => $contentPost, 'resName' => $userPost];
@@ -56,10 +60,31 @@ class ReminderController extends Controller
         $userName = $request->username;
 
 
-        $reminder = Reminder::where('username', $userName)->get(['title', 'content', 'updated_at']);
+        $reminder = Reminder::where('username', $userName)->get(['id', 'title', 'content', 'watched','updated_at']);
      
 
         return ['name' => $reminder];
 
+    }
+
+    public function update(Request $request, $id)
+    {
+
+        $user_content = Reminder::where('id', $id)
+                            ->update([
+                                'watched' => $request->change_watched,
+                                
+                            ]);
+        return $id;
+
+    }
+
+    public function delete(Request $request, $id)
+    {
+        //$edit = new Edit();
+
+        $user_content = Reminder::where('id', $id)->delete();
+
+        return $id;
     }
 }

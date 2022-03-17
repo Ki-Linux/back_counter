@@ -13,5 +13,6 @@ class Reminder extends Model
         'title',
         'content',
         'username',
+        'watched',
     ];
 }

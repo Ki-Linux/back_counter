@@ -37,6 +37,8 @@ Route::post('saving', [LoginController::class, 'store']);
 
 Route::post('reminder_send', [ReminderController::class, 'store']);
 Route::post('reminder', [ReminderController::class, 'index']);//username data send
+Route::delete('delete_reminder/{id}', [ReminderController::class, 'delete']);//リマインダーの削除
+Route::put('update_reminder/{id}', [ReminderController::class, 'update']);//リマインダーの既読
 
 Route::post('edit', [EditController::class, 'store']);//自分のデータを入れる
 Route::post('edit_show', [EditController::class, 'index']);//自分のデータ一覧
