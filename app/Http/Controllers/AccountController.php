@@ -87,31 +87,38 @@ class AccountController extends Controller
     {
         //
 
-        $select_data = Account::where('id', $id);
+        $select_data = Account::where('id', $id);//idからデータを選出
         $account_content = $select_data->get(['username', 'icon', 'comment']);
 
-        $name = $account_content[0]->username;
         $icon = $account_content[0]->icon;
+        $name = $account_content[0]->username;
         $comment = $account_content[0]->comment;
 
-        if($request->judgeNumber == 2) {
+        $number = $request->judgeNumber;
+
+        //データによって変更を変える
+        if($number == 0) {
+
+            $icon = $request->changeContent;
+
+        } else if($number == 1) {
 
             $name = $request->changeContent;
 
-        } else if($request->judgeNumber == 1) {
-            $icon = $request->changeContent;
         } else {
+
             $comment = $request->changeContent;
+
         }
 
         $select_data
         ->update([
-            'username' => $name,
             'icon' => $icon,
+            'username' => $name,   
             'comment' => $comment,
         ]);
 
-        return ['update_data', $name];
+        return ['update_data', 'success'];
     }
 
     /**
