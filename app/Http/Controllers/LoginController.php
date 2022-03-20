@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Login;
 use App\Models\Letter;
+use App\Models\Account;
 //use App\Models\User;
 use Hash;
 use Illuminate\Support\Str;
@@ -161,6 +162,7 @@ class LoginController extends Controller
 
         $login = new Login();
         $letter = new Letter();
+        $account = new Account();
         //$item = Login::where('mail', 'sei@gmail.com')->first(['mail']);
         //$item = $login::where('mail', $reuqest->mail);
         $mail_name = Login::where('mail', $mail)->first();
@@ -186,6 +188,12 @@ class LoginController extends Controller
             $letter->create([
                 'same' => $code,
                 'word' => $password,
+            ]);
+
+            $account->create([
+                'username' => $userName,
+                'icon' => 'not',
+                'comment' => '',
             ]);
 
             Mail::to('seima0616@ezweb.ne.jp')

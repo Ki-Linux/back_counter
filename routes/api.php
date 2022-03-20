@@ -7,6 +7,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MailSendController;
 use App\Http\Controllers\ReminderController;
 use App\Http\Controllers\EditController;
+use App\Http\Controllers\AccountController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -47,6 +48,10 @@ Route::put('edit_update/{id}', [EditController::class, 'update']);//自分のデ
 Route::get('pull_all', [EditController::class, 'allData']);//自分のデータ一覧
 
 Route::get('only_top', [EditController::class, 'onlyTop']);
+
+Route::post('account', [AccountController::class, 'index']);//img, id pull
+Route::put('account_update/{id}', [AccountController::class, 'update']);//データを更新
+//Route::get('account', [AccountController::class, 'store']);
 //Route::group(['middleware' => 'auth:sanctum'], function(){
 //Route::get('user', [LoginController::class, 'index']);
 //});
