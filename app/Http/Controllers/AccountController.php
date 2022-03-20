@@ -20,7 +20,7 @@ class AccountController extends Controller
         //
         $username = $response->accountName;
 
-        $pull_img = Account::where('username', $username)->get(['id', 'icon']);
+        $pull_img = Account::where('username', $username)->get(['id', 'icon', 'comment']);
 
         return ['img_data' => $pull_img];
     }
@@ -118,7 +118,9 @@ class AccountController extends Controller
             'comment' => $comment,
         ]);
 
-        return ['update_data', 'success'];
+        $judge_success = true;
+
+        return ['select_comment' => $judge_success];
     }
 
     /**
