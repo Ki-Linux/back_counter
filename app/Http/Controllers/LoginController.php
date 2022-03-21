@@ -70,9 +70,14 @@ class LoginController extends Controller
             ]);*/
             //return response()-json(['mail' => 'ui', 'password' => 'oi'],200);
         }
+
+        //return ['token' => $item->username];
         
+           
+
             $token = $item->createToken('token')->plainTextToken;
-            return response()->json(compact('token'),200);
+            return response()->json([compact('token'), 'username' => $item->username]);
+
 
         /*$login->create([
             'mail' => $request->mail,
