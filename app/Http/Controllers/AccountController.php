@@ -96,6 +96,7 @@ class AccountController extends Controller
 
         $number = $request->judgeNumber;
 
+
         //データによって変更を変える
         if($number == 0) {
 
@@ -104,6 +105,7 @@ class AccountController extends Controller
         } else if($number == 1) {
 
             $name = $request->changeContent;
+
 
         } else {
 
