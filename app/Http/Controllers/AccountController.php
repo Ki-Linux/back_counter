@@ -22,7 +22,7 @@ class AccountController extends Controller
 
         $pull_img = Account::where('username', $username)->get(['id', 'icon', 'comment']);
 
-        return ['img_data' => $pull_img];
+        return ['img_icon_data' => $pull_img];
     }
 
     /**
@@ -44,14 +44,7 @@ class AccountController extends Controller
     public function store(Request $request)
     {
         //
-        $account = new Account();
-
-        $account->create([
-            'username' => 'hou',
-            'icon' => 'icon',
-            'comment' => 'thi is me',
-            
-        ]);
+        
     }
 
     /**
@@ -104,7 +97,14 @@ class AccountController extends Controller
 
         } else if($number == 1) {
 
+
             $name = $request->changeContent;
+
+            $exist_name = Account::where('username', $name)->where('id', '<>', $id)->get();
+
+            if(count($exist_name) != 0) {
+                return ['judge_success' => false];
+            }
 
 
         } else {
@@ -120,9 +120,8 @@ class AccountController extends Controller
             'comment' => $comment,
         ]);
 
-        $judge_success = true;
 
-        return ['select_comment' => $judge_success];
+        return ['judge_success' => true];
     }
 
     /**
