@@ -22,6 +22,8 @@ class EditController extends Controller
             'can_see' => $response->can_see,
             'can_top' => $response->to_top,
         ]);
+
+        return ["success" => "store_true"];
     }
 
     public function allData(Request $response) 
