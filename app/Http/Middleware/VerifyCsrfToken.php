@@ -29,6 +29,7 @@ class VerifyCsrfToken extends Middleware
         'api/only_top',
         'api/account',
         'api/account_update/*',
+        'api/album_data',
 
     ];
 

@@ -8,6 +8,7 @@ use App\Http\Controllers\MailSendController;
 use App\Http\Controllers\ReminderController;
 use App\Http\Controllers\EditController;
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\AlbumController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -51,6 +52,8 @@ Route::get('only_top', [EditController::class, 'onlyTop']);
 
 Route::post('account', [AccountController::class, 'index']);//img, id pull
 Route::put('account_update/{id}', [AccountController::class, 'update']);//データを更新
+
+Route::get('album_data', [AlbumController::class, 'index']);//自分のデータ一覧
 //Route::get('account', [AccountController::class, 'store']);
 //Route::group(['middleware' => 'auth:sanctum'], function(){
 //Route::get('user', [LoginController::class, 'index']);
