@@ -15,5 +15,6 @@ class Album extends Model
         'selector',
         'target',
         'present',
+        'title',
     ];
 }

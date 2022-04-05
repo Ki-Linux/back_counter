@@ -18,4 +18,21 @@ class AlbumController extends Controller
         return ['name' => $data];
 
     }
+
+    public function store(Request $request)//リマインダーのデータを取ってくる
+    {
+        $album = new Album();
+
+        $album->create([
+            'username' => $request->username,
+            'image' => $request->image,
+            'selector' => $request->selector,
+            'target' => $request->target,
+            'present' => $request->present,
+            'title' => $request->title,
+        ]);
+
+        return ["album" => "store_true"];
+
+    }
 }
