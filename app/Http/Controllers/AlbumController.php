@@ -12,10 +12,10 @@ class AlbumController extends Controller
     public function index(Request $request)//リマインダーのデータを取ってくる
     {
 
+        $album = Album::where('username', $request->username)->get(['id', 'title', 'image', 'selector', 'target', 'present']);
 
-     $data = Album::all();
 
-        return ['name' => $data];
+        return ['album_content' => $album];
 
     }
 
@@ -34,5 +34,14 @@ class AlbumController extends Controller
 
         return ["album" => true];
 
+    }
+
+    public function delete(Request $request, $id)//データを消す
+    {
+        //$edit = new Edit();
+
+        Album::where('id', $id)->delete();
+
+        return ['can_delete' => true];//削除できたことを知らせる
     }
 }

@@ -53,7 +53,9 @@ Route::get('only_top', [EditController::class, 'onlyTop']);
 Route::post('account', [AccountController::class, 'index']);//img, id pull
 Route::put('account_update/{id}', [AccountController::class, 'update']);//データを更新
 
-Route::post('album_data', [AlbumController::class, 'store']);//自分のデータ一覧
+Route::post('album_data', [AlbumController::class, 'store']);//アルバムにデータを入れる
+Route::get('my_album_data_get', [AlbumController::class, 'index']);//アルバムからデータを持ってくる
+Route::delete('delete_album_data/{id}', [AlbumController::class, 'delete']);//アルバムのデータを消す
 //Route::get('account', [AccountController::class, 'store']);
 //Route::group(['middleware' => 'auth:sanctum'], function(){
 //Route::get('user', [LoginController::class, 'index']);
