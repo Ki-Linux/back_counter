@@ -29,7 +29,9 @@ class EditController extends Controller
     public function allData(Request $response) 
     {
 
-        $pull_all = Edit::where('can_list', 1)->get();
+        $skip_num = $response->contents_num;
+
+        $pull_all = Edit::where('can_list', 1)->skip($skip_num)->take(4)->get();
 
         return ['allData' => $pull_all];
 
