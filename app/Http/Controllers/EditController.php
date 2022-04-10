@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Edit;
+use App\Models\Account;
 
 class EditController extends Controller
 {
@@ -31,7 +32,7 @@ class EditController extends Controller
 
         $skip_num = $response->contents_num;
 
-        $pull_all = Edit::where('can_list', 1)->skip($skip_num)->take(4)->get();
+        $pull_all = Edit::where('can_list', 1)->orderBy('updated_at', 'desc')->limit(4)->offset($skip_num)->get();
 
         return ['allData' => $pull_all];
 
