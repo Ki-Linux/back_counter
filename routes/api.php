@@ -9,6 +9,7 @@ use App\Http\Controllers\ReminderController;
 use App\Http\Controllers\EditController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AlbumController;
+use App\Http\Controllers\EveryoneController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -50,12 +51,15 @@ Route::get('pull_all', [EditController::class, 'allData']);//自分のデータ�
 
 Route::get('only_top', [EditController::class, 'onlyTop']);
 
-Route::post('account', [AccountController::class, 'index']);//img, id pull
+Route::get('account', [AccountController::class, 'index']);//img, id pull
 Route::put('account_update/{id}', [AccountController::class, 'update']);//データを更新
 
 Route::post('album_data', [AlbumController::class, 'store']);//アルバムにデータを入れる
 Route::get('my_album_data_get', [AlbumController::class, 'index']);//アルバムからデータを持ってくる
 Route::delete('delete_album_data/{id}', [AlbumController::class, 'delete']);//アルバムのデータを消す
+
+
+Route::get('get_comment', [EveryoneController::class, 'index']);
 //Route::get('account', [AccountController::class, 'store']);
 //Route::group(['middleware' => 'auth:sanctum'], function(){
 //Route::get('user', [LoginController::class, 'index']);
