@@ -34,7 +34,13 @@ class EditController extends Controller
 
         $pull_all = Edit::where('can_list', 1)->orderBy('updated_at', 'desc')->limit(4)->offset($skip_num)->get();
 
-        return ['allData' => $pull_all];
+        $last_num = false;
+
+        if(count($pull_all) != 4) {
+            $last_num = true;
+        }
+
+        return ['allData' => $pull_all, 'last_number' => $last_num];
 
     }
 
