@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Edit;
 use App\Models\Account;
+use App\Models\Point;
 
 class EditController extends Controller
 {
@@ -12,6 +13,7 @@ class EditController extends Controller
     public function store(Request $response)
     {
         $edit = new Edit();
+        $point = new Point();
 
         $edit->create([
             'username' => $response->username,
@@ -23,6 +25,16 @@ class EditController extends Controller
             'can_see' => $response->can_see,
             'can_top' => $response->to_top,
         ]);
+
+        $push_now_id = Edit::orderBy('created_at', 'desc')->first('id');
+
+
+        if($response->show_good == 1) {
+            $point->create([
+                'edit_id' => $push_now_id->id,
+                'good_point' => 0
+            ]);
+        }
 
         return ["success" => "store_true"];
     }
@@ -96,6 +108,22 @@ class EditController extends Controller
                                 'can_see' => $request->can_see,
                                 'can_top' => $request->to_top,
                             ]);
+
+
+        //あとでやる
+
+        /*if($request->show_good == 1) {
+            Point::where('edit_id', $id)
+                            ->update([
+                                'picture' => $request->image,
+                                'my_comment' => $request->comment,
+                                'can_list' => $request->can_list,
+                                'can_good' => $request->show_good,
+                                'can_comment' => $request->others_comment,
+                                'can_see' => $request->can_see,
+                                'can_top' => $request->to_top,
+                            ]);
+        }*/
 
     }
 }

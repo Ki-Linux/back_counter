@@ -10,6 +10,7 @@ use App\Http\Controllers\EditController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AlbumController;
 use App\Http\Controllers\EveryoneController;
+use App\Http\Controllers\DetailController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -59,7 +60,9 @@ Route::get('my_album_data_get', [AlbumController::class, 'index']);//アルバ�
 Route::delete('delete_album_data/{id}', [AlbumController::class, 'delete']);//アルバムのデータを消す
 
 
-Route::get('get_comment', [EveryoneController::class, 'index']);
+Route::get('get_comment', [EveryoneController::class, 'index']);//自分のプロフィールのコメントを表示
+
+Route::get('get_img_good_comment', [DetailController::class, 'index']);
 //Route::get('account', [AccountController::class, 'store']);
 //Route::group(['middleware' => 'auth:sanctum'], function(){
 //Route::get('user', [LoginController::class, 'index']);
