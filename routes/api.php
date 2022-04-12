@@ -63,6 +63,7 @@ Route::delete('delete_album_data/{id}', [AlbumController::class, 'delete']);//�
 Route::get('get_comment', [EveryoneController::class, 'index']);//自分のプロフィールのコメントを表示
 
 Route::get('get_img_good_comment', [DetailController::class, 'index']);
+Route::put('details_good_more/{id}', [DetailController::class, 'update']);
 //Route::get('account', [AccountController::class, 'store']);
 //Route::group(['middleware' => 'auth:sanctum'], function(){
 //Route::get('user', [LoginController::class, 'index']);

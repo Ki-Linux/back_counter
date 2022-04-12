@@ -34,6 +34,7 @@ class VerifyCsrfToken extends Middleware
         'api/delete_album_data/*',
         'api/get_comment',
         'api/get_img_good_comment',
+        'api/details_good_more/*',
     ];
 
    

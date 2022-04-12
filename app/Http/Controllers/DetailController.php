@@ -24,4 +24,19 @@ class DetailController extends Controller
         return['icon_data' => $get_icon, 'point_data' => $get_point];
 
     }
+
+    public function update(Request $request, $id)
+    {
+
+        $now_point = Point::where('edit_id', $id)->get('good_point');
+
+        $now_good = $now_point[0]->good_point;
+
+        $more_point = $now_good + 1;
+        
+        Point::where('edit_id', $id)
+                            ->update([
+                                'good_point' => $more_point,
+                            ]);
+    }
 }
