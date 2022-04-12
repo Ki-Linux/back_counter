@@ -44,7 +44,7 @@ class EditController extends Controller
 
         $skip_num = $response->contents_num;
 
-        $pull_all = Edit::where('can_list', 1)->orderBy('updated_at', 'desc')->limit(4)->offset($skip_num)->get();
+        $pull_all = Edit::where('can_list', 1)->orderBy('updated_at', 'desc')->limit(4)->offset($skip_num)->get(['id', 'username', 'picture', 'my_comment', 'updated_at']);
 
         $last_num = false;
 
