@@ -68,6 +68,7 @@ Route::put('details_good_more/{id}', [DetailController::class, 'update']);//æŠ•ç
 
 
 Route::post('add_comment_data', [CommentController::class, 'store']);
+Route::get('get_comment_data', [CommentController::class, 'index']);
 //Route::get('account', [AccountController::class, 'store']);
 //Route::group(['middleware' => 'auth:sanctum'], function(){
 //Route::get('user', [LoginController::class, 'index']);

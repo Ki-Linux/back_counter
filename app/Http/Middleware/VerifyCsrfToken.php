@@ -36,6 +36,7 @@ class VerifyCsrfToken extends Middleware
         'api/get_img_good_comment',
         'api/details_good_more/*',
         'api/add_comment_data',
+        'api/get_comment_data',
     ];
 
    
