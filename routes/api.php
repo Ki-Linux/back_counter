@@ -11,6 +11,7 @@ use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AlbumController;
 use App\Http\Controllers\EveryoneController;
 use App\Http\Controllers\DetailController;
+use App\Http\Controllers\CommentController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -62,8 +63,11 @@ Route::delete('delete_album_data/{id}', [AlbumController::class, 'delete']);//�
 
 Route::get('get_comment', [EveryoneController::class, 'index']);//自分のプロフィールのコメントを表示
 
-Route::get('get_img_good_comment', [DetailController::class, 'index']);
-Route::put('details_good_more/{id}', [DetailController::class, 'update']);
+Route::get('get_img_good_comment', [DetailController::class, 'index']);//投稿データのコメントを表示
+Route::put('details_good_more/{id}', [DetailController::class, 'update']);//投稿データのいいねが更新される
+
+
+Route::post('add_comment_data', [CommentController::class, 'store']);
 //Route::get('account', [AccountController::class, 'store']);
 //Route::group(['middleware' => 'auth:sanctum'], function(){
 //Route::get('user', [LoginController::class, 'index']);
