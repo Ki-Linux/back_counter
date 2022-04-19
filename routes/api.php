@@ -46,7 +46,7 @@ Route::delete('delete_reminder/{id}', [ReminderController::class, 'delete']);//�
 Route::put('update_reminder/{id}', [ReminderController::class, 'update']);//リマインダーの既読
 
 Route::post('edit', [EditController::class, 'store']);//自分のデータを入れる
-Route::post('edit_show', [EditController::class, 'index']);//自分のデータ一覧
+Route::get('edit_show', [EditController::class, 'index']);//自分のデータ一覧
 Route::delete('edit_del/{id}', [EditController::class, 'delete']);//自分のデータの削除
 Route::put('edit_update/{id}', [EditController::class, 'update']);//自分のデータのアップデート
 Route::get('pull_all', [EditController::class, 'allData']);//自分のデータ一覧
