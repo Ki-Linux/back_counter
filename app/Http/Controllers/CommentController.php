@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Account;
 use App\Models\Comment;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -27,7 +28,7 @@ class CommentController extends Controller
     {
         $id = $response->id_data;
 
-        $get_pointed_comment = Comment::where('edit_id', $id)->get(['other_comment', 'username']);
+        $get_pointed_comment = Comment::where('edit_id', intval($id))->get(['other_comment', 'username']);
 
         $only_name_data = array();//重複したデータがない名前の配列
 
@@ -45,12 +46,18 @@ class CommentController extends Controller
 
         $name_icon_array = array();
 
+        
+
         for($j=0; $j < count($only_name_data); $j++) {//名前と画像の連想配列を作る
-            array_push($name_icon_array, ["username" => $get_pointed_comment[$j]->username, "icon" => $j]);
+
+            $name = $only_name_data[$j];
+
+            $get_image = Account::where("username", $only_name_data[$j])->get("icon");
+            array_push($name_icon_array, ["username" => $name, "icon" => $get_image[0]->icon]);
         }
 
 
 
-        return ['name_icon' => $name_icon_array, 'name_comment' => $get_pointed_comment];
+        return ['name_icon' => $name_icon_array, 'name_comment' => $get_pointed_comment];//];
     }
 }
