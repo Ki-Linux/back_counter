@@ -28,7 +28,7 @@ class CommentController extends Controller
     {
         $id = $response->id_data;
 
-        $get_pointed_comment = Comment::where('edit_id', intval($id))->get(['other_comment', 'username']);
+        $get_pointed_comment = Comment::where('edit_id', intval($id))->get(['other_comment', 'username', 'updated_at']);
 
         $only_name_data = array();//重複したデータがない名前の配列
 
