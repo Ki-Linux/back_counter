@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Account;
 use App\Models\Point;
+use App\Models\Edit;
 
 class DetailController extends Controller
 {
@@ -19,9 +20,12 @@ class DetailController extends Controller
 
         $get_icon = Account::where('username', $name)->get('icon');
 
-        $get_point = Point::where('edit_id', $id)->get('good_point');
+        $get_point = Point::where('edit_id', intval($id))->get('good_point');
 
-        return['icon_data' => $get_icon, 'point_data' => $get_point];
+        $get_can_comment = Edit::where('id', intval($id))->get('can_comment');
+        
+
+        return['icon_data' => $get_icon, 'point_data' => $get_point, 'which_comment' => $get_can_comment];
 
     }
 
