@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\MailTest;
+use App\Mail\MailReport;
 use App\Models\Login;
 use App\Models\Letter;
 use Hash;
@@ -77,6 +78,24 @@ class MailSendController extends Controller
 
 	
 
+
+    }
+
+
+    public function report(Request $request) 
+    {
+
+        $id = $request->id;
+        $reported_name = $request->reported_name;
+        $user_comment = $request->user_comment;
+        $from_name = $request->from_name;
+
+        $report_contents = [$id, $reported_name, $user_comment, $from_name];
+            
+        Mail::to('seima0616@ezweb.ne.jp')
+            ->send(new MailReport($report_contents)); //$index->word'
+        
+            return ['result' => true ];
 
     }
 

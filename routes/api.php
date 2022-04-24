@@ -35,7 +35,8 @@ Route::post('login', [LoginController::class,'login']);
 //Route::middleware(['cors'])->group(function(){
 
     //Route::get('mail', [MailSendController::class, 'upload']);
-    Route::post('mail', [MailSendController::class, 'send']);
+Route::post('mail', [MailSendController::class, 'send']);//メール送る
+Route::post('comment_report', [MailSendController::class, 'report']);//通報する
 
 //});
 Route::post('saving', [LoginController::class, 'store']);
@@ -69,6 +70,8 @@ Route::put('details_good_more/{id}', [DetailController::class, 'update']);//投�
 
 Route::post('add_comment_data', [CommentController::class, 'store']);
 Route::get('get_comment_data', [CommentController::class, 'index']);
+Route::delete('comment_delete/{id}', [CommentController::class, 'delete']);//削除する
+
 //Route::get('account', [AccountController::class, 'store']);
 //Route::group(['middleware' => 'auth:sanctum'], function(){
 //Route::get('user', [LoginController::class, 'index']);

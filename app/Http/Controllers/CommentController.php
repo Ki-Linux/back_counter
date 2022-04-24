@@ -60,4 +60,14 @@ class CommentController extends Controller
 
         return ['name_icon' => $name_icon_array, 'name_comment' => $get_pointed_comment];//];
     }
+
+    public function delete(Request $request, $id)//commentを消す
+    {
+        //$edit = new Edit();
+
+        Comment::where('edit_id', $id)->where('username', $request->username)->where('other_comment', $request->user_comment)->delete();
+
+        return ['can_delete_or_report' => 'can_delete'];//削除できたことを知らせる
+    }
+
 }
