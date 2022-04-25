@@ -7,7 +7,7 @@
     <title>通報がありました。</title>
 </head>
 <body>
-<p>{{$report_contents[3]}}から{{$report_contents[1]}}のコメントに通報がありました。</p>
+<p>{{$report_contents[3]}}から{{$report_contents[1]}}の{{$report_contents[4]}}に通報がありました。</p>
 <br>
 <p>コメント内容：{{$report_contents[2]}}</p>
 <p>投稿データid:{{$report_contents[0]}}</p>

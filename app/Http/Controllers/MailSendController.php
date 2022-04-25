@@ -89,13 +89,14 @@ class MailSendController extends Controller
         $reported_name = $request->reported_name;
         $user_comment = $request->user_comment;
         $from_name = $request->from_name;
+        $post_or_comment = $request->post_or_comment;
 
-        $report_contents = [$id, $reported_name, $user_comment, $from_name];
+        $report_contents = [$id, $reported_name, $user_comment, $from_name, $post_or_comment];
             
         Mail::to('seima0616@ezweb.ne.jp')
             ->send(new MailReport($report_contents)); //$index->word'
         
-            return ['result' => true ];
+            return ['can_delete_or_report' => 'can_report'];
 
     }
 
