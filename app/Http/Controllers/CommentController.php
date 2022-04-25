@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Account;
 use App\Models\Comment;
+use App\Models\Report;
+use App\Models\Edit;
+use App\Models\Reminder;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -13,15 +16,38 @@ class CommentController extends Controller
     public function store(Request $response)
     {
         $comment = new Comment();
+        $reminder = new Reminder();
+
+        $username = $response->username;
 
         $comment->create([
             'edit_id' => $response->id_data,
             'other_comment' => $response->comment,
-            'username' => $response->username,
+            'username' => $username,
         ]);
 
+        $get_post_name_comment = Edit::where('id', $response->id_data)->get(['username', 'my_comment']);
 
-        return ["success" => 'ui'];
+
+        //$can_report_good = Report::where('edit_id', $response->id_data)->where('good_or_comment', 'good')->get('can_report');
+        $can_report_comment = Report::where('edit_id', $response->id_data)->where('good_or_comment', 'comment')->get('can_report');
+
+        if($username != $get_post_name_comment[0]->username && $can_report_comment[0]->can_report == 1) {//他の人の投稿かつレポートをオンにしているとき
+
+            $set_title = $username.'さんからコメントがありました。';
+            $set_content = $username.'さんから'.'「'.$get_post_name_comment[0]->my_comment.'」'.'の投稿にコメントがあります。';
+            $set_name = $get_post_name_comment[0]->username;
+
+            $reminder->create([
+                'title' => $set_title,
+                'content' => $set_content,
+                'username' => $set_name,
+                'watched' => 0,
+            ]);
+
+        }
+
+        return ["success" => $get_post_name_comment[0]->my_comment];
     }
 
     public function index(Request $response)
