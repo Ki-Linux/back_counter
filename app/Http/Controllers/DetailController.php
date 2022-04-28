@@ -20,6 +20,8 @@ class DetailController extends Controller
 
         $name = $response->name_data;
 
+        $my_name = $response->my_name;
+
         $can_see = intval($response->can_see_data);
 
 
@@ -29,11 +31,13 @@ class DetailController extends Controller
 
         $get_can_comment = Edit::where('id', intval($id))->get('can_comment');
 
-        $get_view = View::where('username', $name)->where('edit_id', intval($id))->get('views');
+        $get_view = View::where('username', $name)->where('edit_id', intval($id))->get(['username', 'views']);
 
+        $now_name = $get_view[0]->username;
         $now_view = $get_view[0]->views;
+        
 
-        if($can_see == 1) {//閲覧をプラス1する
+        if($my_name !=  $now_name && $can_see == 1) {//自分以外の閲覧をプラス1する
             
             $now_view++;
 
