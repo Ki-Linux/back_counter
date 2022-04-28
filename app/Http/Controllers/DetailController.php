@@ -22,22 +22,21 @@ class DetailController extends Controller
 
         $my_name = $response->my_name;
 
-        $can_see = intval($response->can_see_data);
-
 
         $get_icon = Account::where('username', $name)->get('icon');
 
         $get_point = Point::where('edit_id', intval($id))->get('good_point');
 
-        $get_can_comment = Edit::where('id', intval($id))->get('can_comment');
+        $get_can_comment_see = Edit::where('id', intval($id))->get(['can_see', 'can_comment']);
 
         $get_view = View::where('username', $name)->where('edit_id', intval($id))->get(['username', 'views']);
 
         $now_name = $get_view[0]->username;
         $now_view = $get_view[0]->views;
+        $get_can_see = $get_can_comment_see[0]->can_see;
         
 
-        if($my_name !=  $now_name && $can_see == 1) {//自分以外の閲覧をプラス1する
+        if($my_name != $now_name && $get_can_see == 1) {//自分以外の閲覧をプラス1する
             
             $now_view++;
 
@@ -47,10 +46,10 @@ class DetailController extends Controller
                                             ]);
 
             
-        }
+       }
         
 
-        return['icon_data' => $get_icon, 'point_data' => $get_point, 'which_comment' => $get_can_comment, 'view_data' => $now_view];
+        return['icon_data' => $get_icon, 'point_data' => $get_point, 'which_comment' => $get_can_comment_see, 'view_data' => $now_view];
 
     }
 
