@@ -7,6 +7,7 @@ use App\Models\Edit;
 use App\Models\Account;
 use App\Models\Point;
 use App\Models\Report;
+use App\Models\View;
 
 class EditController extends Controller
 {
@@ -16,6 +17,7 @@ class EditController extends Controller
         $edit = new Edit();
         $point = new Point();
         $report = new Report();
+        $view = new View();
 
         $edit->create([
             'username' => $response->username,
@@ -48,6 +50,15 @@ class EditController extends Controller
             ]);
         }
 
+        if($response->can_see == 1) {
+            $view->create([
+                'username' => $response->username,
+                'edit_id' => $push_now_id->id,
+                'views' => 0,
+            ]);
+        }
+
+        
         return ["success" => "store_true"];
     }
 

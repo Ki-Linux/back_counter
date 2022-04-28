@@ -8,6 +8,7 @@ use App\Models\Point;
 use App\Models\Edit;
 use App\Models\Reminder;
 use App\Models\Report;
+use App\Models\View;
 
 class DetailController extends Controller
 {
@@ -19,15 +20,33 @@ class DetailController extends Controller
 
         $name = $response->name_data;
 
+        $can_see = intval($response->can_see_data);
+
 
         $get_icon = Account::where('username', $name)->get('icon');
 
         $get_point = Point::where('edit_id', intval($id))->get('good_point');
 
         $get_can_comment = Edit::where('id', intval($id))->get('can_comment');
+
+        $get_view = View::where('username', $name)->where('edit_id', intval($id))->get('views');
+
+        $now_view = $get_view[0]->views;
+
+        if($can_see == 1) {//閲覧をプラス1する
+            
+            $now_view++;
+
+            View::where('username', $name)->where('edit_id', intval($id))
+                                            ->update([
+                                                'views' => $now_view,
+                                            ]);
+
+            
+        }
         
 
-        return['icon_data' => $get_icon, 'point_data' => $get_point, 'which_comment' => $get_can_comment];
+        return['icon_data' => $get_icon, 'point_data' => $get_point, 'which_comment' => $get_can_comment, 'view_data' => $now_view];
 
     }
 
