@@ -79,23 +79,23 @@ class EditController extends Controller
     {
         $edit = new Edit();
 
-        $which_data = $response->id;
-        $sql_data = 'id';
-        $array_send_data = ['*'];
+        //$which_data = $response->id;
+        //$sql_data = 'id';
+        //$array_send_data = ['*'];
 
         
 
-        if($response->username) {
+        //if($response->username) {
            // $user_content = Edit::where('username', $response->username)->get(['id', 'picture', 'my_comment', 'updated_at']);
-           $which_data = $response->username;
-           $sql_data = 'username';
-           $array_send_data = ['id', 'picture', 'my_comment', 'updated_at'];
-        }
+           $username = $response->username;
+           //$sql_data = 'username';
+           $array_send_data = ['id', 'picture', 'my_comment', 'can_see', 'created_at'];
+        //}
 
-        $user_content = Edit::where($sql_data, $which_data)->get($array_send_data);
+        $user_content = Edit::where('username', $username)->get($array_send_data);
 
 
-        return $user_content;
+        return ['contents' => $user_content];
     }
 
     public function delete(Request $request, $id)
