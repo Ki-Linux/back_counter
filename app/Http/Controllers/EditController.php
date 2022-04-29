@@ -106,7 +106,7 @@ class EditController extends Controller
 
             $sql_data = 'id';
             $reference_data = $response->id;
-            $array_send_data = ['id', 'username', 'picture', 'my_comment', 'can_top', 'can_see', 'can_list', 'can_good', 'can_comment'];
+            $array_send_data = ['id', 'username', 'picture', 'my_comment', 'can_top', 'can_see', 'can_list', 'can_good', 'can_comment', 'created_at'];
 
         }
 
