@@ -29,23 +29,28 @@ class DetailController extends Controller
 
         $get_can_comment_see = Edit::where('id', intval($id))->get(['can_see', 'can_comment']);
 
-        $get_view = View::where('username', $name)->where('edit_id', intval($id))->get(['username', 'views']);
-
-        $now_name = $get_view[0]->username;
-        $now_view = $get_view[0]->views;
+ 
         $get_can_see = $get_can_comment_see[0]->can_see;
+        $now_view;
         
 
-        if($my_name != $now_name && $get_can_see == 1) {//自分以外の閲覧をプラス1する
-            
-            $now_view++;
+        if($get_can_see == 1) {//自分以外の閲覧をプラス1する
 
-            View::where('username', $name)->where('edit_id', intval($id))
+            $get_view = View::where('username', $name)->where('edit_id', intval($id))->get(['username', 'views']);
+            $now_name = $get_view[0]->username;
+            $now_view = $get_view[0]->views;
+
+            if($my_name != $now_name) {
+
+                $now_view++;
+
+                View::where('username', $name)->where('edit_id', intval($id))
                                             ->update([
                                                 'views' => $now_view,
                                             ]);
 
-            
+            }
+
        }
         
 
