@@ -110,7 +110,7 @@ class EditController extends Controller
 
         }
 
-        $user_content = Edit::where($sql_data, $reference_data)->get($array_send_data);
+        $user_content = Edit::where($sql_data, $reference_data)->orderBy('created_at', 'desc')->get($array_send_data);
 
 
         return ['contents' => $user_content];
