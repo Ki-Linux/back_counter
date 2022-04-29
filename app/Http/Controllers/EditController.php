@@ -118,17 +118,20 @@ class EditController extends Controller
 
     public function delete(Request $request, $id)
     {
-        //$edit = new Edit();
 
-        $user_content = Edit::where('id', $id)->delete();
+        Edit::where('id', $id)->delete();
+        Point::where('edit_id', $id)->delete();
+        Report::where('edit_id', $id)->delete();
+        View::where('edit_id', $id)->delete();
 
-        return $id;
+        return ["can_delete" => true];
+
     }
 
     public function update(Request $request, $id)
     {
 
-        /*$user_content = Edit::where('id', intval($id))
+        Edit::where('id', intval($id))
                             ->update([
                                 'username' => $request->username,
                                 'picture' => $request->image,
@@ -138,7 +141,7 @@ class EditController extends Controller
                                 'can_see' => $request->can_see,
                                 'can_top' => $request->to_top,
                                 'can_list' => $request->can_list, 
-                            ]);*/
+                            ]);
 
         /*if($request->can_see == 1) {//この投稿の閲覧数を表示するときは閲覧数データ作る
             $view = new View();
@@ -152,7 +155,7 @@ class EditController extends Controller
             View::where('edit_id', $id)->delete();
         }*/
 
-        return['ui' => $request->image];
+        return["success" => "update_true"];
         //あとでやる
 
         /*if($request->show_good == 1) {
