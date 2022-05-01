@@ -16,6 +16,9 @@ class VerifyCsrfToken extends Middleware
     protected $except = [
         'api/login',
         'api/saving',
+        'api/check_change_password',
+        'api/check_change_password/*',
+        'api/get_information',
         'api/mail',
         'api/reminder',
         'api/reminder_send',
@@ -39,6 +42,7 @@ class VerifyCsrfToken extends Middleware
         'api/get_comment_data',
         'api/comment_delete/*',
         'api/comment_report',
+        
     ];
 
    

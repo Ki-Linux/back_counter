@@ -29,6 +29,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 //Route::post('logins', [LoginController::class,'store']);
 Route::post('login', [LoginController::class,'login']);
+Route::post('saving', [LoginController::class, 'store']);
+Route::post('check_change_password', [LoginController::class,'only_check_password']);
+Route::put('check_change_password/{id}', [LoginController::class,'update']);
+Route::get('get_information', [LoginController::class,'get_user_info']);
 
 //Route::post('login', [LoginController::class,'test']);
 
@@ -39,7 +43,7 @@ Route::post('mail', [MailSendController::class, 'send']);//メール送る
 Route::post('comment_report', [MailSendController::class, 'report']);//通報する
 
 //});
-Route::post('saving', [LoginController::class, 'store']);
+
 
 Route::post('reminder_send', [ReminderController::class, 'store']);
 Route::post('reminder', [ReminderController::class, 'index']);//username data send

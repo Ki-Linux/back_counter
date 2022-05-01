@@ -141,6 +141,8 @@ class LoginController extends Controller
         /*$mail = $request->mail;
         $password = $request->password; 
 
+        
+
         $login = new Login();
         $item = Login::where('mail', $mail)->first();
         return $item;*/
@@ -210,6 +212,41 @@ class LoginController extends Controller
 
     }
 
+    public function only_check_password(Request $request)
+    {
+
+        $username = $request->username;
+        $written_password = $request->password;
+
+        $get_hashed_password = Login::where('username', $username)->get('password');
+
+        $password_check = false;
+
+        if(Hash::check($written_password, $get_hashed_password[0]->password)) {
+
+            $password_check = true;
+
+        }
+
+            
+        return $password_check;
+
+    }
+
+    public function get_user_info(Request $request)
+    {
+
+        $username = $request->username;
+        $select_info = $request->clicked_num;
+
+        if($select_info == 0) {
+
+            $get_address_name = Login::where('username', $username)->get('mail');
+            return ['get_contents' => $get_address_name[0]->mail];
+        }
+
+    }
+
     /**
      * Display the specified resource.
      *
@@ -231,6 +268,18 @@ class LoginController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $username = $request->username;
+        $written_password = $request->password;
+
+        Login::where('username', $username)
+                            ->update([
+                                'password' => $written_password,
+                            ]);
+
+        if($id === '1') {
+            return ['change_password_success' => true];
+        }
+        
     }
 
     /**
