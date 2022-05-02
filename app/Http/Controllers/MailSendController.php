@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\MailTest;
 use App\Mail\MailReport;
+use App\Mail\MailContact;
 use App\Models\Login;
 use App\Models\Letter;
 use Hash;
@@ -97,6 +98,23 @@ class MailSendController extends Controller
             ->send(new MailReport($report_contents)); //$index->word'
         
             return ['can_delete_or_report' => 'can_report'];
+
+    }
+
+
+    public function contact(Request $request) 
+    {
+        $content = $request->content;
+        $address = $request->address;
+
+        $contact_contents = [$content, $address];
+            
+        Mail::to('seima0616@ezweb.ne.jp')
+            ->send(new MailContact($contact_contents)); //$index->word'
+        
+            return ['can_contact' => true];
+
+
 
     }
 

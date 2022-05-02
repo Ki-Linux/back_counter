@@ -44,6 +44,7 @@ Route::put('post_reminder_update/{id}', [LoginController::class,'post_reminder_u
     //Route::get('mail', [MailSendController::class, 'upload']);
 Route::post('mail', [MailSendController::class, 'send']);//メール送る
 Route::post('comment_report', [MailSendController::class, 'report']);//通報する
+Route::post('sendContactMail', [MailSendController::class, 'contact']);//お問い合わせ
 
 //});
 
