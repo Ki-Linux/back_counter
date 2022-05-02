@@ -138,15 +138,12 @@ class LoginController extends Controller
 
     public function index(Request $request)
     {
-        /*$mail = $request->mail;
-        $password = $request->password; 
+        $name = $request->username;
 
-        
+        $get_id = Login::where('username', $name)->get('id');
 
-        $login = new Login();
-        $item = Login::where('mail', $mail)->first();
-        return $item;*/
-        //return ['ier' => 'weri'];
+        return $get_id[0]->id;
+
     }
 
     public function create()
@@ -190,6 +187,7 @@ class LoginController extends Controller
                     'username' => $userName,
                     'password' => Hash::make($password),
                     'random' => Hash::make($code),
+                    'post_reminder' => 1,
             ]);
 
             $letter->create([
@@ -239,11 +237,19 @@ class LoginController extends Controller
         $username = $request->username;
         $select_info = $request->clicked_num;
 
+        $get_address_name = Login::where('username', $username)->get(['mail', 'post_reminder']);
+        $send_data;
+
         if($select_info == 0) {
 
-            $get_address_name = Login::where('username', $username)->get('mail');
-            return ['get_contents' => $get_address_name[0]->mail];
+            $send_data = $get_address_name[0]->mail;
+            
+        } else if($select_info == 2) {
+
+            $send_data = $get_address_name[0]->post_reminder;
         }
+
+        return ['get_contents' => $send_data];
 
     }
 
@@ -271,15 +277,28 @@ class LoginController extends Controller
         $username = $request->username;
         $written_password = $request->password;
 
-        Login::where('username', $username)
+        Login::where('username', $username)->where('id', $id)
                             ->update([
                                 'password' => $written_password,
                             ]);
 
-        if($id === '1') {
+        //if($id === '1') {
             return ['change_password_success' => true];
-        }
+       // }
         
+    }
+
+    public function post_reminder_update(Request $request, $id)
+    {
+        $username = $request->username;
+        $yes_no = $request->yes_no;
+
+        Login::where('username', $username)->where('id', $id)
+                            ->update([
+                                'post_reminder' => $yes_no,
+                            ]);
+
+        return ['update_reminder' => true];
     }
 
     /**

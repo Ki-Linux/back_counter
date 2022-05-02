@@ -33,6 +33,9 @@ Route::post('saving', [LoginController::class, 'store']);
 Route::post('check_change_password', [LoginController::class,'only_check_password']);
 Route::put('check_change_password/{id}', [LoginController::class,'update']);
 Route::get('get_information', [LoginController::class,'get_user_info']);
+Route::get('get_id', [LoginController::class,'index']);
+Route::put('post_reminder_update/{id}', [LoginController::class,'post_reminder_update']);
+
 
 //Route::post('login', [LoginController::class,'test']);
 
