@@ -80,7 +80,7 @@ class DetailController extends Controller
         $get_post_name_comment = Edit::where('id', $id)->get(['username', 'my_comment']);
 
 
-        $can_report_good = Report::where('edit_id', $id)->where('good_or_comment', 'good')->get('can_report');
+        $can_report_good = Report::where('username', $get_post_name_comment[0]->username)->where('good_or_comment', 'good')->get('can_report');
                     
         if($username != $get_post_name_comment[0]->username && $can_report_good[0]->can_report == 1) {//他の人の投稿かつレポートをオンにしているとき
                     

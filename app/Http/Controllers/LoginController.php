@@ -189,7 +189,6 @@ class LoginController extends Controller
                     'username' => $userName,
                     'password' => Hash::make($password),
                     'random' => Hash::make($code),
-                    'post_reminder' => 1,
             ]);
 
             $push_now_id = Login::orderBy('created_at', 'desc')->first('id');//今入れた値のidを抽出
@@ -198,7 +197,7 @@ class LoginController extends Controller
 
                 $report->create([//いいねやコメントの報告、最初はyesにする
                     'username' => $userName,
-                    'edit_id' => $push_now_id->id,
+                    'user_id' => $push_now_id->id,
                     'good_or_comment' => $good_and_comment,
                     'can_report' => 1,//1はyes, 0はno
                 ]);
@@ -317,7 +316,7 @@ class LoginController extends Controller
             $push_name = 'comment';
         }
 
-        Report::where('username', $username)->where('edit_id', 20)->where('good_or_comment', $push_name)
+        Report::where('username', $username)->where('user_id', $id)->where('good_or_comment', $push_name)
                             ->update([
                                 'can_report' => $yes_no,
                             ]);

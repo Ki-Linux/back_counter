@@ -109,7 +109,6 @@ class EditController extends Controller
 
         Edit::where('id', $id)->delete();
         Point::where('edit_id', $id)->delete();
-        Report::where('edit_id', $id)->delete();
         View::where('edit_id', $id)->delete();
 
         return ["can_delete" => true];

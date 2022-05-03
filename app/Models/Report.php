@@ -11,7 +11,7 @@ class Report extends Model
     protected $table = "reports";
     protected $fillable = [
         'username',
-        'edit_id',
+        'user_id',
         'good_or_comment',
         'can_report',
     ];

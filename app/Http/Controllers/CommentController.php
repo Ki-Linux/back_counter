@@ -30,7 +30,7 @@ class CommentController extends Controller
 
 
         //$can_report_good = Report::where('edit_id', $response->id_data)->where('good_or_comment', 'good')->get('can_report');
-        $can_report_comment = Report::where('edit_id', $response->id_data)->where('good_or_comment', 'comment')->get('can_report');
+        $can_report_comment = Report::where('username', $get_post_name_comment[0]->username)->where('good_or_comment', 'comment')->get('can_report');
 
         if($username != $get_post_name_comment[0]->username && $can_report_comment[0]->can_report == 1) {//他の人の投稿かつレポートをオンにしているとき
 
