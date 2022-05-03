@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Login;
 use App\Models\Letter;
 use App\Models\Account;
+use App\Models\Report;
 //use App\Models\User;
 use Hash;
 use Illuminate\Support\Str;
@@ -167,6 +168,7 @@ class LoginController extends Controller
         $login = new Login();
         $letter = new Letter();
         $account = new Account();
+        $report = new Report();
         //$item = Login::where('mail', 'sei@gmail.com')->first(['mail']);
         //$item = $login::where('mail', $reuqest->mail);
         $mail_name = Login::where('mail', $mail)->first();
@@ -189,6 +191,19 @@ class LoginController extends Controller
                     'random' => Hash::make($code),
                     'post_reminder' => 1,
             ]);
+
+            $push_now_id = Login::orderBy('created_at', 'desc')->first('id');//今入れた値のidを抽出
+
+            foreach (['good', 'comment'] as $good_and_comment) {//goodとcommentを入れる
+
+                $report->create([//いいねやコメントの報告、最初はyesにする
+                    'username' => $userName,
+                    'edit_id' => $push_now_id->id,
+                    'good_or_comment' => $good_and_comment,
+                    'can_report' => 1,//1はyes, 0はno
+                ]);
+
+            }
 
             $letter->create([
                 'same' => $code,
@@ -237,7 +252,8 @@ class LoginController extends Controller
         $username = $request->username;
         $select_info = $request->clicked_num;
 
-        $get_address_name = Login::where('username', $username)->get(['mail', 'post_reminder']);
+        $get_address_name = Login::where('username', $username)->get('mail');
+        $get_report_contents = Report::where('username', $username)->get('can_report');
         $send_data;
 
         if($select_info == 0) {
@@ -246,7 +262,7 @@ class LoginController extends Controller
             
         } else if($select_info == 2) {
 
-            $send_data = $get_address_name[0]->post_reminder;
+            $send_data = $get_report_contents;//
         }
 
         return ['get_contents' => $send_data];
@@ -292,10 +308,18 @@ class LoginController extends Controller
     {
         $username = $request->username;
         $yes_no = $request->yes_no;
+        $good_or_comment = $request->good_or_comment;
+        $push_name;
 
-        Login::where('username', $username)->where('id', $id)
+        if($good_or_comment == 0) {
+            $push_name = 'good';
+        } else if($good_or_comment == 1) {
+            $push_name = 'comment';
+        }
+
+        Report::where('username', $username)->where('edit_id', 20)->where('good_or_comment', $push_name)
                             ->update([
-                                'post_reminder' => $yes_no,
+                                'can_report' => $yes_no,
                             ]);
 
         return ['update_reminder' => true];

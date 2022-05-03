@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Edit;
 use App\Models\Account;
 use App\Models\Point;
-use App\Models\Report;
+
 use App\Models\View;
 
 class EditController extends Controller
@@ -16,7 +16,6 @@ class EditController extends Controller
     {
         $edit = new Edit();
         $point = new Point();
-        $report = new Report();
         $view = new View();
 
         $edit->create([
@@ -31,17 +30,6 @@ class EditController extends Controller
         ]);
 
         $push_now_id = Edit::orderBy('created_at', 'desc')->first('id');//今入れた値のidを抽出
-
-        foreach (['good', 'comment'] as $good_and_comment) {//goodとcommentを入れる
-
-            $report->create([//いいねやコメントの報告、最初はyesにする
-                'username' => $response->username,
-                'edit_id' => $push_now_id->id,
-                'good_or_comment' => $good_and_comment,
-                'can_report' => 1,//1はyes, 0はno
-            ]);
-
-        }
 
         if($response->show_good == 1) {
             $point->create([
