@@ -171,14 +171,14 @@ class LoginController extends Controller
         $report = new Report();
         //$item = Login::where('mail', 'sei@gmail.com')->first(['mail']);
         //$item = $login::where('mail', $reuqest->mail);
-        $mail_name = Login::where('mail', $mail)->first();
-        $user_name = Login::where('username', $userName)->first();
+        $mail_name = Login::where('mail', $mail)->get('id');
+        $user_name = Login::where('username', $userName)->get('id');
 
-        if($mail_name) {
+        if(count($mail_name) != 0) {
 
             return ['next_go' => 'not_one'];
 
-        } else if($user_name) {
+        } else if(count($user_name) != 0) {
 
             return ['next_go' => 'not_two'];
 
@@ -212,7 +212,7 @@ class LoginController extends Controller
             $account->create([
                 'username' => $userName,
                 'icon' => 'not',
-                'comment' => '',
+                'comment' => 'no',
             ]);
 
             Mail::to('seima0616@ezweb.ne.jp')
