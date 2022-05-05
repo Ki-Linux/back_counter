@@ -25,9 +25,15 @@ class DetailController extends Controller
 
         $get_icon = Account::where('username', $name)->get('icon');
 
-        $get_point = Point::where('edit_id', intval($id))->get('good_point');
+        $get_can_comment_see = Edit::where('id', intval($id))->get(['can_good', 'can_see', 'can_comment']);
 
-        $get_can_comment_see = Edit::where('id', intval($id))->get(['can_see', 'can_comment']);
+        $get_point = [];
+
+        if($get_can_comment_see[0]->can_good == 1) {//いいねを許可しているときだけいいねする
+
+            $get_point = Point::where('edit_id', intval($id))->get('good_point');
+
+        }
 
  
         $get_can_see = $get_can_comment_see[0]->can_see;
@@ -60,7 +66,7 @@ class DetailController extends Controller
 
     public function update(Request $request, $id)
     {
-
+        
         $now_point = Point::where('edit_id', $id)->get('good_point');
 
         $now_good = $now_point[0]->good_point;
