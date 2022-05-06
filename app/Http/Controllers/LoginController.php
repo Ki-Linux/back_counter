@@ -9,6 +9,7 @@ use App\Models\Login;
 use App\Models\Letter;
 use App\Models\Account;
 use App\Models\Report;
+use App\Models\Name;
 //use App\Models\User;
 use Hash;
 use Illuminate\Support\Str;
@@ -54,7 +55,7 @@ class LoginController extends Controller
                 'mail' => 'required',
                 'password' => 'required'
             ]);
-            return ['token' => 'nothing'];
+            return ['divided_data' => 'nothing'];
 
             //return 'パスワードが違います';
             
@@ -73,11 +74,22 @@ class LoginController extends Controller
         }
 
         //return ['token' => $item->username];
+        $name = new Name();
         
            
 
-            $token = $item->createToken('token')->plainTextToken;
-            return response()->json([compact('token'), 'username' => $item->username]);
+        $token = $item->createToken('token')->plainTextToken;
+
+        $divide_content = str_split($token, mb_strlen($token) / 2);
+
+        $name->create([
+            'account_id' => $item->id,
+            'front' => $divide_content[0],
+        ]);
+
+        return response()->json(['divided_data' => $divide_content[1], 'username' => $item->username]);
+            
+        //return response()->json([compact('token'), 'username' => $item->username]);
 
 
         /*$login->create([
