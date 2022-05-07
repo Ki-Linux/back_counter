@@ -10,6 +10,7 @@ use App\Models\Letter;
 use App\Models\Account;
 use App\Models\Report;
 use App\Models\Name;
+use App\Models\Token;
 //use App\Models\User;
 use Hash;
 use Illuminate\Support\Str;
@@ -74,13 +75,18 @@ class LoginController extends Controller
         }
 
         //return ['token' => $item->username];
+        $token_box = new Token();
         $name = new Name();
-        
            
 
         $token = $item->createToken('token')->plainTextToken;
 
         $divide_content = str_split($token, mb_strlen($token) / 2);
+
+        $token_box->create([
+            'account_id' => $item->id,
+            'token' => Hash::make($token),
+        ]);
 
         $name->create([
             'account_id' => $item->id,
@@ -148,6 +154,33 @@ class LoginController extends Controller
             return false;
         }
     }*/
+
+    public function confirm_token(Request $request)
+    {
+        $name = $request->username;
+        $divided_back = substr($request->divided_back, 25);
+
+        $get_id = Login::where('username', $name)->get('id');
+
+        $get_front = Name::where('account_id', $get_id[0]->id)->orderBy('id', 'desc')->first('front');
+
+
+        $get_hashed = Token::where('account_id', $get_id[0]->id)->orderBy('id', 'desc')->first('token');
+
+        $united = $get_front->front.$divided_back;
+
+        $token_check = false;
+
+        if(Hash::check($united, $get_hashed->token)) {
+
+            $token_check = true;
+
+        }
+        
+        return $token_check;
+
+
+    }
 
     public function index(Request $request)
     {

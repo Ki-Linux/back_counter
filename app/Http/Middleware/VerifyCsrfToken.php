@@ -20,6 +20,7 @@ class VerifyCsrfToken extends Middleware
         'api/check_change_password/*',
         'api/get_information',
         'api/get_id',
+        'api/confirm_token',
         'api/post_reminder_update/*',
         'api/mail',
         'api/reminder',
