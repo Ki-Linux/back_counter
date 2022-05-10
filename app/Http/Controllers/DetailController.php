@@ -37,7 +37,7 @@ class DetailController extends Controller
 
  
         $get_can_see = $get_can_comment_see[0]->can_see;
-        $now_view;
+        $now_view = 0;
         
 
         if($get_can_see == 1) {//自分以外の閲覧をプラス1する

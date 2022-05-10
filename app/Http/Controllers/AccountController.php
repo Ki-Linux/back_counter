@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Account;
+use App\Models\Login;
 use App\Http\Controllers\Controller;
 use \Symfony\Component\HttpFoundation\Response;
 
@@ -80,8 +81,9 @@ class AccountController extends Controller
     {
         //
 
-        $select_data = Account::where('id', $id);//idからデータを選出
-        $account_content = $select_data->get(['username', 'icon', 'comment']);
+        //$select_data = Account::where('id', $id);//idからデータを選出
+        //$login_data = Login::where('id', $id);//idからデータを選出
+        $account_content = Account::where('id', $id)->get(['username', 'icon', 'comment']);
 
         $icon = $account_content[0]->icon;
         $name = $account_content[0]->username;
@@ -113,12 +115,21 @@ class AccountController extends Controller
 
         }
 
-        $select_data
+        $get_name = Account::where('id', $id)->get('username');
+
+        Login::where('username', $get_name[0]->username)
+        ->update([
+            'username' => $name,
+        ]);
+
+        Account::where('id', $id)
         ->update([
             'icon' => $icon,
             'username' => $name,   
             'comment' => $comment,
         ]);
+
+
 
 
         return ['judge_success' => true];
