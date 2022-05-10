@@ -182,6 +182,19 @@ class LoginController extends Controller
 
     }
 
+    public function delete(Request $request, $id)//commentを消す
+    {
+
+
+        Name::where('account_id', $id)->delete();
+
+        Token::where('account_id', $id)->delete();
+
+        return ['logout' => true];
+
+
+    }
+
     public function index(Request $request)
     {
         $name = $request->username;

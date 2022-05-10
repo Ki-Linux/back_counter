@@ -36,6 +36,7 @@ Route::get('get_information', [LoginController::class,'get_user_info']);
 Route::get('get_id', [LoginController::class,'index']);
 Route::get('confirm_token', [LoginController::class,'confirm_token']);
 Route::put('post_reminder_update/{id}', [LoginController::class,'post_reminder_update']);
+Route::delete('logout/{id}', [LoginController::class,'delete']);
 
 
 //Route::post('login', [LoginController::class,'test']);
