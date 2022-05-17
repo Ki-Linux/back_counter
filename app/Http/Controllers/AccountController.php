@@ -85,7 +85,7 @@ class AccountController extends Controller
         //$login_data = Login::where('id', $id);//idからデータを選出
         $account_content = Account::where('id', $id)->get(['username', 'icon', 'comment']);
 
-        $icon = $account_content[0]->icon;
+        //$icon = $account_content[0]->icon;
         $name = $account_content[0]->username;
         $comment = $account_content[0]->comment;
 
@@ -93,11 +93,11 @@ class AccountController extends Controller
 
 
         //データによって変更を変える
-        if($number == 0) {
+        /*if($number == 0) {
 
             $icon = $request->changeContent;
 
-        } else if($number == 1) {
+        } else */if($number == 1) {
 
 
             $name = $request->changeContent;
@@ -109,7 +109,7 @@ class AccountController extends Controller
             }
 
 
-        } else {
+        } else if($number == 2) {
 
             $comment = $request->changeContent;
 
@@ -124,7 +124,6 @@ class AccountController extends Controller
 
         Account::where('id', $id)
         ->update([
-            'icon' => $icon,
             'username' => $name,   
             'comment' => $comment,
         ]);
@@ -144,5 +143,18 @@ class AccountController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function img_post(Request $response)
+    {
+        $file_name = $response->file->getClientOriginalName();
+        $userId = $response->userId;
+        $response->file->storeAs('public/account/', $file_name);
+
+        Account::where('id', $userId)
+                            ->update([
+                                'icon' => 'storage/account/'.$file_name,
+                            ]);
+        return ['judge_success' => true];
     }
 }

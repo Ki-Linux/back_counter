@@ -96,4 +96,19 @@ class CommentController extends Controller
         return ['can_delete_or_report' => 'can_delete'];//削除できたことを知らせる
     }
 
+    public function ui(Request $response)
+    {
+        $file_name = $response->file->getClientOriginalName();
+        $response->file->storeAs('public/account/', $file_name);
+
+        $account = new Account();
+
+        $account->create([
+            'username' => 'seima',
+            'icon' => 'public/account/'.$file_name,
+            'comment' => 'me',
+        ]);
+
+    }
+
 }

@@ -47,7 +47,7 @@ class VerifyCsrfToken extends Middleware
         'api/comment_delete/*',
         'api/comment_report',
         'api/sendContactMail',
-        
+        'api/img_account_post',
     ];
 
    

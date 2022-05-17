@@ -87,3 +87,7 @@ Route::delete('comment_delete/{id}', [CommentController::class, 'delete']);//削
 //Route::get('user', [LoginController::class, 'index']);
 //});
 //Route::get('/logins', [LoginController::class,'index']);
+Route::post('img_account_post', [AccountController::class, 'img_post']);/*function() {
+    $file_name = request()->file->getClientOriginalName();
+    request()->file->storeAs('public/account/', $file_name);
+});*/
