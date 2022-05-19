@@ -350,9 +350,25 @@ class LoginController extends Controller
         $username = $request->username;
         $written_password = $request->password;
 
+        $check_object = Letter::select('*')->get();
+
+        $name = Login::where('id', $id)->first('random');
+
+        foreach($check_object as $check=>$index) {//繰り返してデータ取得
+               
+            if(Hash::check($index->same, $name->random)) {
+                Letter::where('same', $index->same)
+                        ->update([
+                            'word' => $written_password
+                        ]);
+            }
+    
+        }
+
+
         Login::where('username', $username)->where('id', $id)
                             ->update([
-                                'password' => $written_password,
+                                'password' => Hash::make($written_password),
                             ]);
 
         //if($id === '1') {

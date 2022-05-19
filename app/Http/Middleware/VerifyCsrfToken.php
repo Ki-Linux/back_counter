@@ -48,6 +48,7 @@ class VerifyCsrfToken extends Middleware
         'api/comment_report',
         'api/sendContactMail',
         'api/img_account_post',
+        'api/counter_image',
     ];
 
    
