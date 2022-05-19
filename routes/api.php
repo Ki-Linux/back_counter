@@ -108,27 +108,28 @@ Route::post('counter_image', function() {//storage image
     
 });
 
-Route::post('album_image', function() {//storage image album
+Route::post('album_post_image', function() {//storage image album
 
     $default_or_selected = request()->default_or_selected;
+    $album_or_post = request()->album_or_post;
 
     if($default_or_selected == 'true') {
 
         $file_name = request()->file->getClientOriginalName();
-        request()->file->storeAs('public/album/', $file_name);
+        request()->file->storeAs('public'.$album_or_post, $file_name);
 
     } else {
 
         $move_file_name = request()->file;
         
-        Storage::move('public/counter/'.$move_file_name, 'public/album/'.$move_file_name);
+        Storage::copy('public/counter/'.$move_file_name, 'public'.$album_or_post.$move_file_name);
     }
     
     return true;
     
 });
 
-Route::post('post_image', function() {//storage image post
+/*Route::post('album_post_image', function() {//storage image post
 
     $default_or_selected = request()->default_or_selected;
 
@@ -146,4 +147,4 @@ Route::post('post_image', function() {//storage image post
     
     return true;
 
-});
+});*/
