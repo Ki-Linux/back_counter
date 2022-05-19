@@ -12,6 +12,8 @@ use App\Http\Controllers\AlbumController;
 use App\Http\Controllers\EveryoneController;
 use App\Http\Controllers\DetailController;
 use App\Http\Controllers\CommentController;
+
+use Illuminate\Support\Facades\Storage;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -91,7 +93,7 @@ Route::post('img_account_post', [AccountController::class, 'img_post']);/*functi
     $file_name = request()->file->getClientOriginalName();
     request()->file->storeAs('public/account/', $file_name);
 });*/
-Route::post('counter_image', function() {
+Route::post('counter_image', function() {//storage image
 
     $length = request()->data_length;
 
@@ -104,4 +106,27 @@ Route::post('counter_image', function() {
 
     return true;
     
+});
+
+Route::post('album_image', function() {//storage image
+
+    $default_or_selected = request()->default_or_selected;
+
+    if($default_or_selected) {
+
+        $file_name = request()->file->getClientOriginalName();
+        request()->file->storeAs('public/album/', $file_name);
+
+    } else {
+
+        $move_file_name = request()->file;
+        
+        Storage::move('public/counter/'.$move_file_name, 'public/album/'.$move_file_name);
+
+    }
+
+    
+    
+
+    return true;
 });
