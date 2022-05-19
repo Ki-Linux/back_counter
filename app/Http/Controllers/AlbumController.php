@@ -32,7 +32,7 @@ class AlbumController extends Controller
             'title' => $request->title,
         ]);
 
-        return ["album" => true];
+        return true;
 
     }
 

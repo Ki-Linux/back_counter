@@ -108,11 +108,11 @@ Route::post('counter_image', function() {//storage image
     
 });
 
-Route::post('album_image', function() {//storage image
+Route::post('album_image', function() {//storage image album
 
     $default_or_selected = request()->default_or_selected;
 
-    if($default_or_selected) {
+    if($default_or_selected == 'true') {
 
         $file_name = request()->file->getClientOriginalName();
         request()->file->storeAs('public/album/', $file_name);
@@ -122,11 +122,28 @@ Route::post('album_image', function() {//storage image
         $move_file_name = request()->file;
         
         Storage::move('public/counter/'.$move_file_name, 'public/album/'.$move_file_name);
-
     }
-
     
-    
-
     return true;
+    
+});
+
+Route::post('post_image', function() {//storage image post
+
+    $default_or_selected = request()->default_or_selected;
+
+    if($default_or_selected == 'true') {
+
+        $file_name = request()->file->getClientOriginalName();
+        request()->file->storeAs('public/post/', $file_name);
+
+    } else {
+
+        $move_file_name = request()->file;
+        
+        Storage::copy('public/counter/'.$move_file_name, 'public/post/'.$move_file_name);
+    }
+    
+    return true;
+
 });
