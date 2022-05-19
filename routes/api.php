@@ -129,6 +129,22 @@ Route::post('album_post_image', function() {//storage image album
     
 });
 
+Route::post('storage_counter_delete', function() {
+
+    $delete_image = request()->delete_image;
+
+    $array_image_delete = explode(',', $delete_image);
+
+    for($i=0; $i < count($array_image_delete); $i++) {
+        Storage::delete('public/counter/'.$array_image_delete[$i]);
+    }
+
+    return true;
+
+    //Storage::delete()
+
+});
+
 /*Route::post('album_post_image', function() {//storage image post
 
     $default_or_selected = request()->default_or_selected;

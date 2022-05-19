@@ -50,7 +50,7 @@ class VerifyCsrfToken extends Middleware
         'api/img_account_post',
         'api/counter_image',
         'api/album_post_image',
-        'api/post_image',
+        'api/storage_counter_delete',
     ];
 
    
