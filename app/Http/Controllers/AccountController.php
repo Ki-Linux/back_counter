@@ -7,7 +7,7 @@ use App\Models\Account;
 use App\Models\Login;
 use App\Http\Controllers\Controller;
 use \Symfony\Component\HttpFoundation\Response;
-
+use Illuminate\Support\Facades\Storage;
 
 class AccountController extends Controller
 {
@@ -149,11 +149,18 @@ class AccountController extends Controller
     {
         $file_name = $response->file->getClientOriginalName();
         $userId = $response->userId;
+
+        //前回のアイコンを削除
+        $get_before_icon = Account::where('id', $userId)->get('icon');
+
+        Storage::delete('public/account/'.$get_before_icon[0]->icon);
+
+        //アイコンを追加
         $response->file->storeAs('public/account/', $file_name);
 
         Account::where('id', $userId)
                             ->update([
-                                'icon' => 'storage/account/'.$file_name,
+                                'icon' => $file_name,
                             ]);
         return ['judge_success' => true];
     }

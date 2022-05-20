@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use App\Models\Album;
 use App\Http\Controllers\Controller;
 use \Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Storage;
 
 class AlbumController extends Controller
 {
@@ -39,6 +40,12 @@ class AlbumController extends Controller
     public function delete(Request $request, $id)//データを消す
     {
         //$edit = new Edit();
+
+        //前回のアイコンを削除
+        $get_before_image = Album::where('id', $id)->get('image');
+
+        Storage::delete('public/album/'.$get_before_image[0]->image);
+
 
         Album::where('id', $id)->delete();
 
