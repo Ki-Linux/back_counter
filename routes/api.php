@@ -93,6 +93,7 @@ Route::post('img_account_post', [AccountController::class, 'img_post']);/*functi
     $file_name = request()->file->getClientOriginalName();
     request()->file->storeAs('public/account/', $file_name);
 });*/
+
 Route::post('counter_image', function() {//storage image
 
     $length = request()->data_length;

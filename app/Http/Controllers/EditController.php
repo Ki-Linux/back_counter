@@ -125,6 +125,8 @@ class EditController extends Controller
 
     public function update(Request $request, $id)
     {
+        $before_image = Edit::where('id', intval($id))->get('picture');
+        Storage::delete('public/post/'.$before_image[0]->picture);
 
         Edit::where('id', intval($id))
                             ->update([
