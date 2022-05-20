@@ -9,6 +9,8 @@ use App\Models\Point;
 
 use App\Models\View;
 
+use Illuminate\Support\Facades\Storage;
+
 class EditController extends Controller
 {
     //
@@ -107,9 +109,15 @@ class EditController extends Controller
     public function delete(Request $request, $id)
     {
 
+        //storage imageを削除
+        $get_delete_image = Edit::where('id', $id)->get('picture');
+        Storage::delete('public/post/'.$get_delete_image[0]->picture);
+
         Edit::where('id', $id)->delete();
         Point::where('edit_id', $id)->delete();
         View::where('edit_id', $id)->delete();
+
+        
 
         return ["can_delete" => true];
 
