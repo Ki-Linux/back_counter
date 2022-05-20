@@ -270,7 +270,7 @@ class LoginController extends Controller
             $account->create([
                 'username' => $userName,
                 'icon' => 'not',
-                'comment' => 'no',
+                'comment' => 'コメントはありません',
             ]);
 
             Mail::to('seima0616@ezweb.ne.jp')
