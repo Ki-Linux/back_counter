@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Account;
 use App\Models\Login;
+use App\Models\Album;
+use App\Models\Edit;
+use App\Models\View;
+use App\Models\Comment;
 use App\Http\Controllers\Controller;
 use \Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Storage;
@@ -128,8 +132,25 @@ class AccountController extends Controller
             'comment' => $comment,
         ]);
 
+        Album::where('username', $get_name[0]->username)
+        ->update([
+            'username' => $name,
+        ]);
 
+        Edit::where('username', $get_name[0]->username)
+        ->update([
+            'username' => $name,
+        ]);
 
+        View::where('username', $get_name[0]->username)
+        ->update([
+            'username' => $name,
+        ]);
+
+        Comment::where('username', $get_name[0]->username)
+        ->update([
+            'username' => $name,
+        ]);
 
         return ['judge_success' => true];
     }

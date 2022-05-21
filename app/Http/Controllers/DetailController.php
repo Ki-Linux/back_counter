@@ -60,7 +60,7 @@ class DetailController extends Controller
        }
         
 
-        return['icon_data' => $get_icon, 'point_data' => $get_point, 'which_comment' => $get_can_comment_see, 'view_data' => $now_view];
+        return['icon_data' => $get_icon, 'point_data' => $get_point, 'which_comment' => $get_can_comment_see, 'can_see' => $get_can_see, 'view_data' => $now_view];
 
     }
 
