@@ -273,7 +273,7 @@ class LoginController extends Controller
                 'comment' => 'コメントはありません',
             ]);
 
-            Mail::to('seima0616@ezweb.ne.jp')
+            Mail::to($mail)
 		        ->send(new MailConf($userName));
 
             return ['next_go' => 'yes'];
