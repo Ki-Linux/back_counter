@@ -121,18 +121,24 @@ class AccountController extends Controller
 
         $get_name = Account::where('id', $id)->get('username');
 
-        Login::where('username', $get_name[0]->username)
-        ->update([
-            'username' => $name,
-        ]);
-
         Account::where('id', $id)
         ->update([
             'username' => $name,   
             'comment' => $comment,
         ]);
+                    
+        $sql_name = [new Login(), new Album(), new Edit(), new View(), new Comment()];
+        
+        foreach($sql_name as $sql) {
 
-        Album::where('username', $get_name[0]->username)
+            $sql->where('username', $get_name[0]->username)
+                        ->update([
+                            'username' => $name,
+                        ]);
+
+        }
+
+        /*Album::where('username', $get_name[0]->username)
         ->update([
             'username' => $name,
         ]);
@@ -150,7 +156,7 @@ class AccountController extends Controller
         Comment::where('username', $get_name[0]->username)
         ->update([
             'username' => $name,
-        ]);
+        ]);*/
 
         return ['judge_success' => true];
     }
