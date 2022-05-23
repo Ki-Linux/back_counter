@@ -10,6 +10,7 @@ use App\Models\Edit;
 use App\Models\View;
 use App\Models\Comment;
 use App\Models\Report;
+use App\Models\Reminder;
 use App\Http\Controllers\Controller;
 use \Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Storage;
