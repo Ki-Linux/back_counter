@@ -9,6 +9,7 @@ use App\Models\Album;
 use App\Models\Edit;
 use App\Models\View;
 use App\Models\Comment;
+use App\Models\Report;
 use App\Http\Controllers\Controller;
 use \Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Storage;
@@ -127,7 +128,7 @@ class AccountController extends Controller
             'comment' => $comment,
         ]);
                     
-        $sql_name = [new Login(), new Album(), new Edit(), new View(), new Comment()];
+        $sql_name = [new Login(), new Album(), new Edit(), new View(), new Comment(), new Report()];
         
         foreach($sql_name as $sql) {
 
