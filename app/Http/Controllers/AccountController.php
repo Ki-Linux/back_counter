@@ -128,7 +128,7 @@ class AccountController extends Controller
             'comment' => $comment,
         ]);
                     
-        $sql_name = [new Login(), new Album(), new Edit(), new View(), new Comment(), new Report()];
+        $sql_name = [new Login(), new Album(), new Edit(), new View(), new Comment(), new Report(), new Reminder()];
         
         foreach($sql_name as $sql) {
 
