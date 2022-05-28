@@ -11,20 +11,15 @@ use App\Models\Account;
 use App\Models\Report;
 use App\Models\Name;
 use App\Models\Token;
-//use App\Models\User;
+
 use Hash;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\MailConf;
-//use Illuminate\Support\Facades\Validator;
-//use Illuminate\Support\Facades\Mail;
-//use App\Mail\TestEmail;
-//use Log;
+
 use Exception;
 use Log;
-//use SendGrid;
-//use SendGrid\Mail;
 use \Symfony\Component\HttpFoundation\Response;
 
 
@@ -39,16 +34,11 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
+
         $mail = $request->mail;
         $password = $request->password; 
 
-        //$user = User::where('mail', $mail)->first();
-
-        //$login = new Login();
         $item = Login::where('mail', $mail)->first();
-        //$user_name = Login::where('username', $mail)->first();
-        //$item = $login::where('mail', $reuqest->mail);
-        //!Hash::check($password, $item->password
         
         if(!$item || !Hash::check($password, $item->password)) {
 
@@ -56,25 +46,11 @@ class LoginController extends Controller
                 'mail' => 'required',
                 'password' => 'required'
             ]);
+
             return ['divided_data' => 'nothing'];
 
-            //return 'パスワードが違います';
-            
-
-            /*return*/ 
-           
-            //$validator->errors()->merge('mail', 'メールが違うか、パスワードが違うか');
-            //throw new ValidationException(['mail' => 'メールが違うか、パスワードが違うか']);
-
-            /*$login->create([
-                'mail' => $request->mail,
-                'username' => "d",
-                'password' => $request->password,
-            ]);*/
-            //return response()-json(['mail' => 'ui', 'password' => 'oi'],200);
         }
 
-        //return ['token' => $item->username];
         $token_box = new Token();
         $name = new Name();
            
@@ -94,69 +70,12 @@ class LoginController extends Controller
         ]);
 
         return response()->json(['divided_data' => $divide_content[1], 'username' => $item->username]);
-            
-        //return response()->json([compact('token'), 'username' => $item->username]);
-
-
-        /*$login->create([
-            'mail' => $request->mail,
-            'username' => "uidfvd",
-            'password' => $request->password,
-        ]);*/
         
-        
-
     }
-
-    /*public function test() {
-        $this->sendMail();
-        return view('index');
-    }*/
-
-    /*public function sendMail(Request $request)
-    {
-        //$data = ['message' => 'この内容がTest Emailの下のpタグに書かれる'];
-        //Mail::to('linuxseima@gmail.com')->send(new TestEmail($data));
-        
-
-        //return ['re' => $request];
-        $email = new \SendGrid\Mail\Mail();
-        $email->setFrom(getenv('FROM_EMAIL'), getenv('FROM_NAME'));
-        $email->setSubject("test");
-        $email->addTo('linuxseima@gmail.com');
- 
-        $sendGrid = new \SendGrid(getenv('SENDGRID_API_KEY'));
-        $email->addContent(
-            "text/plain",
-            strval(
-                view(
-                    'emails/templates/notificationMail',
-                    compact('data')
-                )
-            )
-        );
-        $email->addContent(
-            "text/html",
-            strval(
-                view(
-                    'emails/templates/notificationMail',
-                    compact('data')
-                )
-            )
-        );
-         
-        try {
-            $sendGrid->send($email);
-            return true;
-        } catch (Exception $e) {
-            echo $e;
-            // Log::debug($e->getMessage());
-            return false;
-        }
-    }*/
 
     public function confirm_token(Request $request)
     {
+
         $name = $request->username;
         $divided_back = substr($request->divided_back, 25);
 
@@ -179,19 +98,16 @@ class LoginController extends Controller
         
         return $token_check;
 
-
     }
 
     public function delete(Request $request, $id)//commentを消す
     {
-
 
         Name::where('account_id', $id)->delete();
 
         Token::where('account_id', $id)->delete();
 
         return ['logout' => true];
-
 
     }
 
@@ -227,8 +143,7 @@ class LoginController extends Controller
         $letter = new Letter();
         $account = new Account();
         $report = new Report();
-        //$item = Login::where('mail', 'sei@gmail.com')->first(['mail']);
-        //$item = $login::where('mail', $reuqest->mail);
+
         $mail_name = Login::where('mail', $mail)->get('id');
         $user_name = Login::where('username', $userName)->get('id');
 
@@ -319,7 +234,7 @@ class LoginController extends Controller
             
         } else if($select_info == 2) {
 
-            $send_data = $get_report_contents;//
+            $send_data = $get_report_contents;
         }
 
         return ['get_contents' => $send_data];
@@ -357,43 +272,52 @@ class LoginController extends Controller
         foreach($check_object as $check=>$index) {//繰り返してデータ取得
                
             if(Hash::check($index->same, $name->random)) {
+
                 Letter::where('same', $index->same)
                         ->update([
                             'word' => $written_password
                         ]);
+
             }
     
         }
 
 
-        Login::where('username', $username)->where('id', $id)
-                            ->update([
-                                'password' => Hash::make($written_password),
-                            ]);
+        Login::where('username', $username)
+                ->where('id', $id)
+                ->update([
+                    'password' => Hash::make($written_password),
+                ]);
 
-        //if($id === '1') {
-            return ['change_password_success' => true];
-       // }
+
+        return ['change_password_success' => true];
         
     }
 
     public function post_reminder_update(Request $request, $id)
     {
+
         $username = $request->username;
         $yes_no = $request->yes_no;
         $good_or_comment = $request->good_or_comment;
         $push_name;
 
         if($good_or_comment == 0) {
+
             $push_name = 'good';
+
         } else if($good_or_comment == 1) {
+
             $push_name = 'comment';
+
         }
 
-        Report::where('username', $username)->where('user_id', $id)->where('good_or_comment', $push_name)
-                            ->update([
-                                'can_report' => $yes_no,
-                            ]);
+        Report::where('username', $username)
+                ->where('user_id', $id)
+                ->where('good_or_comment', $push_name)
+                ->update([
+                    'can_report' => $yes_no,
+                ]);
 
         return ['update_reminder' => true];
     }

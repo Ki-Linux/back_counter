@@ -30,6 +30,7 @@ class AccountController extends Controller
         $pull_img = Account::where('username', $username)->get(['id', 'icon', 'comment']);
 
         return ['img_icon_data' => $pull_img];
+        
     }
 
     /**
@@ -85,26 +86,16 @@ class AccountController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
 
-        //$select_data = Account::where('id', $id);//idからデータを選出
-        //$login_data = Login::where('id', $id);//idからデータを選出
         $account_content = Account::where('id', $id)->get(['username', 'icon', 'comment']);
 
-        //$icon = $account_content[0]->icon;
         $name = $account_content[0]->username;
         $comment = $account_content[0]->comment;
 
         $number = $request->judgeNumber;
 
-
         //データによって変更を変える
-        /*if($number == 0) {
-
-            $icon = $request->changeContent;
-
-        } else */if($number == 1) {
-
+        if($number == 1) {
 
             $name = $request->changeContent;
 
@@ -124,43 +115,24 @@ class AccountController extends Controller
         $get_name = Account::where('id', $id)->get('username');
 
         Account::where('id', $id)
-        ->update([
-            'username' => $name,   
-            'comment' => $comment,
-        ]);
+                    ->update([
+                        'username' => $name,   
+                        'comment' => $comment,
+                    ]);
                     
         $sql_name = [new Login(), new Album(), new Edit(), new View(), new Comment(), new Report(), new Reminder()];
         
         foreach($sql_name as $sql) {
 
             $sql->where('username', $get_name[0]->username)
-                        ->update([
-                            'username' => $name,
-                        ]);
+                ->update([
+                    'username' => $name,
+                ]);
 
         }
 
-        /*Album::where('username', $get_name[0]->username)
-        ->update([
-            'username' => $name,
-        ]);
-
-        Edit::where('username', $get_name[0]->username)
-        ->update([
-            'username' => $name,
-        ]);
-
-        View::where('username', $get_name[0]->username)
-        ->update([
-            'username' => $name,
-        ]);
-
-        Comment::where('username', $get_name[0]->username)
-        ->update([
-            'username' => $name,
-        ]);*/
-
         return ['judge_success' => true];
+
     }
 
     /**
@@ -176,6 +148,7 @@ class AccountController extends Controller
 
     public function img_post(Request $response)
     {
+
         $file_name = $response->file->getClientOriginalName();
         $userId = $response->userId;
 
@@ -191,6 +164,7 @@ class AccountController extends Controller
                             ->update([
                                 'icon' => $file_name,
                             ]);
+
         return ['judge_success' => true];
     }
 }

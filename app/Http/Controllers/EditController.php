@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Edit;
 use App\Models\Account;
 use App\Models\Point;
-
+use App\Models\Comment;
 use App\Models\View;
 
 use Illuminate\Support\Facades\Storage;
@@ -47,7 +47,6 @@ class EditController extends Controller
                 'views' => 0,
             ]);
         }
-
         
         return ["success" => "store_true"];
     }
@@ -57,7 +56,20 @@ class EditController extends Controller
 
         $skip_num = $response->contents_num;
 
-        $pull_all = Edit::where('can_list', 1)->orderBy('updated_at', 'desc')->limit(4)->offset($skip_num)->get(['id', 'username', 'picture', 'my_comment', 'updated_at']);
+        $pull_all = Edit::where('can_list', 1)
+                            ->orderBy('updated_at', 'desc')
+                            ->limit(4)
+                            ->offset($skip_num)
+                            ->get(['id', 'username', 'picture', 'my_comment', 'updated_at']);
+
+        if(count($pull_all) > 0) {
+            
+            for($i=0; $i < count($pull_all); $i++) {
+
+                $pull_all[$i]->updated_at = $pull_all[$i]->updated_at->addHour(9);
+
+            }
+        }
 
         $last_num = false;
 
@@ -78,16 +90,16 @@ class EditController extends Controller
 
     public function index(Request $response)
     {
+
         $edit = new Edit();
 
-        //if($response->target == 'edit') {
-            $sql_data;
-            $reference_data;
-            $array_send_data;
+        $sql_data;
+        $reference_data;
+        $array_send_data;
     
 
         if($response->target == 'list') {
-           // $user_content = Edit::where('username', $response->username)->get(['id', 'picture', 'my_comment', 'updated_at']);
+
            $sql_data = 'username';
            $reference_data = $response->username;
            $array_send_data = ['id', 'picture', 'my_comment', 'can_see', 'created_at'];
@@ -111,62 +123,50 @@ class EditController extends Controller
 
         //storage imageを削除
         $get_delete_image = Edit::where('id', $id)->get('picture');
-        Storage::delete('public/post/'.$get_delete_image[0]->picture);
+
+        $image_data = 'public/post/'.$get_delete_image[0]->picture;
+
+        $data_exist = Storage::exists($image_data);
+
+        if($data_exist) {
+
+            Storage::delete($image_data);
+
+        }
 
         Edit::where('id', $id)->delete();
-        Point::where('edit_id', $id)->delete();
-        View::where('edit_id', $id)->delete();
 
+        $delete_sql = [new Point(), new View(), new Comment()];
+
+        foreach($delete_sql as $sql) {
+
+            $sql->where('edit_id', $id)->delete();
+
+        }
         
-
         return ["can_delete" => true];
 
     }
 
     public function update(Request $request, $id)
     {
+
         $before_image = Edit::where('id', intval($id))->get('picture');
         Storage::delete('public/post/'.$before_image[0]->picture);
 
         Edit::where('id', intval($id))
-                            ->update([
-                                'username' => $request->username,
-                                'picture' => $request->image,
-                                'my_comment' => $request->comment,
-                                'can_good' => $request->show_good,
-                                'can_comment' => $request->others_comment,
-                                'can_see' => $request->can_see,
-                                'can_top' => $request->to_top,
-                                'can_list' => $request->can_list, 
-                            ]);
-
-        /*if($request->can_see == 1) {//この投稿の閲覧数を表示するときは閲覧数データ作る
-            $view = new View();
-
-            $view->create([
-                'username' => 'towa',
-                'edit_id' => $id,
-                'views' => 0,
-            ]);
-        } else {//この投稿の閲覧数を表示しないときは閲覧数データ消す
-            View::where('edit_id', $id)->delete();
-        }*/
+                ->update([
+                    'username' => $request->username,
+                    'picture' => $request->image,
+                    'my_comment' => $request->comment,
+                    'can_good' => $request->show_good,
+                    'can_comment' => $request->others_comment,
+                    'can_see' => $request->can_see,
+                    'can_top' => $request->to_top,
+                    'can_list' => $request->can_list, 
+                ]);
 
         return["success" => "update_true"];
-        //あとでやる
-
-        /*if($request->show_good == 1) {
-            Point::where('edit_id', $id)
-                            ->update([
-                                'picture' => $request->image,
-                                'my_comment' => $request->comment,
-                                'can_list' => $request->can_list,
-                                'can_good' => $request->show_good,
-                                'can_comment' => $request->others_comment,
-                                'can_see' => $request->can_see,
-                                'can_top' => $request->to_top,
-                            ]);
-        }*/
 
     }
 }

@@ -62,7 +62,17 @@ class ReminderController extends Controller
 
         $reminder = Reminder::where('username', $userName)->get(['id', 'title', 'content', 'watched','updated_at']);
      
+        if(count($reminder) > 0) {
 
+            for($i=0; $i < count($reminder); $i++) {
+
+                $reminder[$i]->updated_at = $reminder[$i]->updated_at->addHour(9);
+        
+            }
+
+        }
+        
+        
         return ['name' => $reminder];
 
     }
@@ -81,7 +91,6 @@ class ReminderController extends Controller
 
     public function delete(Request $request, $id)
     {
-        //$edit = new Edit();
 
         $user_content = Reminder::where('id', $id)->delete();
 

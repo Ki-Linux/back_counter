@@ -16,5 +16,6 @@ class EveryoneController extends Controller
 
         $account_comment = Account::where('username', $username)->first('comment');
         return ['my_comment' => $account_comment];
+        
     }
 }

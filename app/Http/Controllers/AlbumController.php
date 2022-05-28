@@ -15,6 +15,14 @@ class AlbumController extends Controller
 
         $album = Album::where('username', $request->username)->get(['id', 'title', 'image', 'selector', 'target', 'present', 'created_at']);
 
+        if(count($album) > 0) {
+
+            for($i=0; $i < count($album); $i++) {
+
+                $album[$i]->created_at = $album[$i]->created_at->addHour(9);
+
+            }
+        }
 
         return ['album_content' => $album];
 
@@ -39,13 +47,11 @@ class AlbumController extends Controller
 
     public function delete(Request $request, $id)//データを消す
     {
-        //$edit = new Edit();
 
         //前回のアイコンを削除
         $get_before_image = Album::where('id', $id)->get('image');
 
         Storage::delete('public/album/'.$get_before_image[0]->image);
-
 
         Album::where('id', $id)->delete();
 

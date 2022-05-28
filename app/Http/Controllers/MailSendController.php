@@ -26,62 +26,35 @@ class MailSendController extends Controller
      * 
      */
 
-    //
     public function send(Request $request) {
  
-    $mail = $request->mail;
+        $mail = $request->mail;
 
-    $login = new Login();
-    $letter = new Letter();
+        $login = new Login();
+        $letter = new Letter();
 
-    $name = Login::where('mail', $mail)->first();
+        $name = Login::where('mail', $mail)->first();
 
-    $check_object = Letter::select('*')->get();
+        $check_object = Letter::select('*')->get();
 
-    //hou@gmail.com p ppppppp
+        if($name) {//メールアドレスがあるとき
 
-    if($name) {//メールアドレスがあるとき
-
-        foreach($check_object as $check=>$index) {//繰り返してデータ取得
+            foreach($check_object as $check=>$index) {//繰り返してデータ取得
                
-            if(Hash::check($index->same, $name->random)) {
-                Mail::to('seima0616@ezweb.ne.jp')
-                    ->send(new MailTest($index->word)); //$index->word'
+                if(Hash::check($index->same, $name->random)) {
+
+                    Mail::to('seima0616@ezweb.ne.jp')
+                        ->send(new MailTest($index->word)); //$index->word'
     
-                return ['result' => true ];
+                    return ['result' => true ];
+                }
+    
             }
-    
         }
-    }
     
-
-    return ['result' => false ];
-
-    /*else {
-
-        return ['result' => 'sdsd'];
-
-    }*/
-
-
-
-
-    /*if($name) {
-        Mail::to('seima0616@ezweb.ne.jp')
-		->send(new MailTest($check_word));
-
-        return ['result' => 'dddddd'];
-    } else {
-
-        return ['result' => 'sdsd'];
-
-    }*/
-
-	
-
+        return ['result' => false ];
 
     }
-
 
     public function report(Request $request) 
     {
@@ -97,13 +70,14 @@ class MailSendController extends Controller
         Mail::to('seima0616@ezweb.ne.jp')
             ->send(new MailReport($report_contents)); //$index->word'
         
-            return ['can_delete_or_report' => 'can_report'];
+        return ['can_delete_or_report' => 'can_report'];
 
     }
 
 
     public function contact(Request $request) 
     {
+
         $content = $request->content;
         $address = $request->address;
 
@@ -112,9 +86,7 @@ class MailSendController extends Controller
         Mail::to('seima0616@ezweb.ne.jp')
             ->send(new MailContact($contact_contents)); //$index->word'
         
-            return ['can_contact' => true];
-
-
+        return ['can_contact' => true];
 
     }
 
