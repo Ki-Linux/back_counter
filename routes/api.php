@@ -25,6 +25,13 @@ use Illuminate\Support\Facades\Storage;
 |
 */
 
+Route::group(['middleware' => ['api', 'cors']], function(){
+    Route::options('articles', function() {
+        return response()->json();
+    });
+    Route::resource('articles', 'Api\ArticlesController');
+});
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
