@@ -152,8 +152,13 @@ class EditController extends Controller
     {
 
         $before_image = Edit::where('id', intval($id))->get('picture');
-        Storage::delete('public/post/'.$before_image[0]->picture);
 
+        if($before_image[0]->picture != $request->image) {
+
+            Storage::delete('public/post/'.$before_image[0]->picture);
+            
+        }
+        
         Edit::where('id', intval($id))
                 ->update([
                     'username' => $request->username,
