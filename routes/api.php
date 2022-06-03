@@ -14,6 +14,11 @@ use App\Http\Controllers\DetailController;
 use App\Http\Controllers\CommentController;
 
 use Illuminate\Support\Facades\Storage;
+
+
+use App\Http\Controllers\tryController;
+
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -138,3 +143,6 @@ Route::post('storage_counter_delete', function() {//カウンター画像を削�
 
 
 });
+
+
+Route::get('azure_post', [tryController::class, 'index']);

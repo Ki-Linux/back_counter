@@ -52,7 +52,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'https://azurecounterplusminus.azurewebsites.net/'),
+    'url' => env('APP_URL', 'http://azurecounterplusminus.azurewebsites.net'),
 
     'asset_url' => env('ASSET_URL', null),
 
