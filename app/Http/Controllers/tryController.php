@@ -10,6 +10,8 @@ use \Symfony\Component\HttpFoundation\Response;
 
 use Illuminate\Support\Facades\Storage;
 
+//use League\Flysystem\AwsS3v3\AwsS3Adapter;
+
 
 class tryController extends Controller
 {
@@ -19,9 +21,9 @@ class tryController extends Controller
         //$connectionString = "DefaultEndpointsProtocol=https;AccountName=".config('azure.account_name').";AccountKey=".config('azure.account_key');
 
         //$blobClient = BlobRestProxy::createBlobService($connectionString);
-        Storage::disk('azure')->put('test.txt', 'ok?');
+        $data = Storage::disk('s3')->get('22563485.png');
 
-        return true;
+        return $data;
 
     }
 }

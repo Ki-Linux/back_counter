@@ -145,4 +145,4 @@ Route::post('storage_counter_delete', function() {//カウンター画像を削�
 });
 
 
-Route::get('azure_post', [tryController::class, 'index']);
+Route::get('aws_post', [tryController::class, 'index']);
