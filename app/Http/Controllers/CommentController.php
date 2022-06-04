@@ -103,7 +103,7 @@ class CommentController extends Controller
 
     }
 
-    public function ui(Request $response)
+    /*public function ui(Request $response)
     {
         $file_name = $response->file->getClientOriginalName();
         $response->file->storeAs('public/account/', $file_name);
@@ -116,6 +116,6 @@ class CommentController extends Controller
             'comment' => 'me',
         ]);
 
-    }
+    }*/
 
 }

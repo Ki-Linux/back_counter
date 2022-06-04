@@ -96,15 +96,19 @@ Route::delete('comment_delete/{id}', [CommentController::class, 'delete']);//削
 Route::post('counter_image', function() {//カウンター画像
 
     $length = request()->data_length;
-
+    $storage = Storage::disk('s3');
+    $array_image = [];
+        
     for($key=0; $key < $length; $key++) {
 
-        $file_name = request()->$key->getClientOriginalName();
-        request()->$key->storeAs('public/counter/', $file_name);
+        $file_name = request()->$key;
+        $post_image = $storage->putFile('counter', $file_name, 'public');
+        array_push($array_image, $post_image);
+        //request()->$key->storeAs('public/counter/', $file_name);
 
     }
 
-    return true;
+    return $array_image;
     
 });
 
@@ -112,17 +116,27 @@ Route::post('album_post_image', function() {//アルバム画像
 
     $default_or_selected = request()->default_or_selected;
     $album_or_post = request()->album_or_post;
+    $username = request()->username;
+    $storage = Storage::disk('s3');
+
+    $ru = Album::where('username', $username)->orderBy('created_at', 'desc')->first();
+
+    /*$ru->update([
+                    'image' => request()->file,
+                ]);*/
 
     if($default_or_selected == 'true') {
 
         $file_name = request()->file->getClientOriginalName();
-        request()->file->storeAs('public'.$album_or_post, $file_name);
+        $storage->put($album_or_post, $file_name);
+        //request()->file->storeAs('public'.$album_or_post, $file_name);
 
     } else {
 
         $move_file_name = request()->file;
         
-        Storage::copy('public/counter/'.$move_file_name, 'public'.$album_or_post.$move_file_name);
+        $storage->copy('counter/'.$move_file_name, $album_or_post.$move_file_name);
+        //Storage::copy('public/counter/'.$move_file_name, 'public'.$album_or_post.$move_file_name);
     }
     
     return true;
@@ -135,8 +149,12 @@ Route::post('storage_counter_delete', function() {//カウンター画像を削�
 
     $array_image_delete = explode(',', $delete_image);
 
+    $storage = Storage::disk('s3');
+
     for($i=0; $i < count($array_image_delete); $i++) {
-        Storage::delete('public/counter/'.$array_image_delete[$i]);
+
+        $storage->delete('counter/'.$array_image_delete[$i]);
+        //Storage::delete('public/counter/'.$array_image_delete[$i]);
     }
 
     return true;

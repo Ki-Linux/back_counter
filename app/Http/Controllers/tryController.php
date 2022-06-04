@@ -21,7 +21,8 @@ class tryController extends Controller
         //$connectionString = "DefaultEndpointsProtocol=https;AccountName=".config('azure.account_name').";AccountKey=".config('azure.account_key');
 
         //$blobClient = BlobRestProxy::createBlobService($connectionString);
-        $data = Storage::disk('s3')->get('22563485.png');
+        $storage = Storage::disk('s3');
+        $data = $storage->get('22563485.png');
 
         return $data;
 

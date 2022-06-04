@@ -151,18 +151,25 @@ class AccountController extends Controller
 
         $file_name = $response->file->getClientOriginalName();
         $userId = $response->userId;
+        $storage = Storage::disk('s3');
 
         //前回のアイコンを削除
         $get_before_icon = Account::where('id', $userId)->get('icon');
 
-        Storage::delete('public/account/'.$get_before_icon[0]->icon);
+        $storage->delete($get_before_icon[0]->icon);
 
         //アイコンを追加
-        $response->file->storeAs('public/account/', $file_name);
+        
+        $post_image = $storage->put('account', $response->file, 'public');
+
+        //$data = $storage->get('H23xsZsY3TUlRNLGMxW2Cyf4S4Ht0fWo95W98qiU.png');
+       // $it = $storage->url($data);
+        //$storage->move('22563485.png', 'me/22563485.png');
+        //$response->file->storeAs('public/account/', $file_name);
 
         Account::where('id', $userId)
                             ->update([
-                                'icon' => $file_name,
+                                'icon' => $post_image,
                             ]);
 
         return ['judge_success' => true];

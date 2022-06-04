@@ -16,13 +16,36 @@ class EditController extends Controller
     //
     public function store(Request $response)
     {
+
+        $default_or_selected = $response->default_or_selected;
+        $username = $response->username;
+        $file = $response->file;
+        $storage = Storage::disk('s3');
+
+        $post_file;
+
+        if($default_or_selected == 'true') {
+
+            $post_file = $storage->putFile('post', $file, 'public');
+            //request()->file->storeAs('public'.$album_or_post, $file_name);
+
+        } else {
+
+            $del_directory = str_replace('counter/', '', $file);
+        
+            //$post_file = $storage->putFile('post', $del_directory, 'public');
+            $storage->copy('counter/'.$del_directory, 'post/'.$del_directory);
+            $post_file = 'post/'.$del_directory;
+        //Storage::copy('public/counter/'.$move_file_name, 'public'.$album_or_post.$move_file_name);
+        }
+
         $edit = new Edit();
         $point = new Point();
         $view = new View();
 
         $edit->create([
             'username' => $response->username,
-            'picture' => $response->image,
+            'picture' => $post_file,
             'can_list' => $response->can_list,
             'my_comment' => $response->comment,
             'can_good' => $response->show_good,
@@ -120,17 +143,18 @@ class EditController extends Controller
 
     public function delete(Request $request, $id)
     {
+        //削除
+        $storage = Storage::disk('s3');
 
-        //storage imageを削除
         $get_delete_image = Edit::where('id', $id)->get('picture');
 
-        $image_data = 'public/post/'.$get_delete_image[0]->picture;
+        $image_data = 'post/'.$get_delete_image[0]->picture;
 
-        $data_exist = Storage::exists($image_data);
+        $data_exist = $storage->exists($image_data);
 
         if($data_exist) {
 
-            Storage::delete($image_data);
+            $storage->delete($image_data);
 
         }
 
@@ -151,18 +175,36 @@ class EditController extends Controller
     public function update(Request $request, $id)
     {
 
+        $default_or_selected = $request->default_or_selected;
+        $username = $request->username;
+        $file = $request->file;
+        $storage = Storage::disk('s3');
+
+        $post_file;
+
+        if($default_or_selected == 'true') {
+
+            $post_file = $storage->putFile('post', $file, 'public');
+            //request()->file->storeAs('public'.$album_or_post, $file_name);
+
+        } /*else {
+        
+            $post_file = $storage->copy('counter/'.$file, 'post/'.$file);
+        //Storage::copy('public/counter/'.$move_file_name, 'public'.$album_or_post.$move_file_name);
+        }*/
+
         $before_image = Edit::where('id', intval($id))->get('picture');
 
-        if($before_image[0]->picture != $request->image) {
+        if($before_image[0]->picture != 'post/'.$request->image) {
 
-            Storage::delete('public/post/'.$before_image[0]->picture);
+            $storage->delete('post/'.$before_image[0]->picture);
             
         }
         
         Edit::where('id', intval($id))
                 ->update([
                     'username' => $request->username,
-                    'picture' => $request->image,
+                    'picture' => $post_file,
                     'my_comment' => $request->comment,
                     'can_good' => $request->show_good,
                     'can_comment' => $request->others_comment,

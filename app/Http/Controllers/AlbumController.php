@@ -30,11 +30,34 @@ class AlbumController extends Controller
 
     public function store(Request $request)//リマインダーのデータを取ってくる
     {
+        $default_or_selected = $request->default_or_selected;
+
+        $file = $request->file;
+
+        $post_file;
+
+        $storage = Storage::disk('s3');
+
+        if($default_or_selected == 'true') {
+
+            $post_file = $storage->putFile('album', $file, 'public');
+        //request()->file->storeAs('public'.$album_or_post, $file_name);
+
+        } else {
+
+            $del_directory = str_replace('counter/', '', $file);
+        
+            $storage->copy('counter/'.$del_directory, 'album/'.$del_directory);
+
+            $post_file = 'album/'.$del_directory;
+            //Storage::copy('public/counter/'.$move_file_name, 'public'.$album_or_post.$move_file_name);
+        }
+
         $album = new Album();
 
         $album->create([
             'username' => $request->username,
-            'image' => $request->image,
+            'image' => $post_file,
             'selector' => $request->selector,
             'target' => $request->target,
             'present' => $request->present,
@@ -51,7 +74,9 @@ class AlbumController extends Controller
         //前回のアイコンを削除
         $get_before_image = Album::where('id', $id)->get('image');
 
-        Storage::delete('public/album/'.$get_before_image[0]->image);
+        $storage = Storage::disk('s3');
+
+        $storage->delete($get_before_image[0]->image);
 
         Album::where('id', $id)->delete();
 
