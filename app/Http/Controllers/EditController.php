@@ -148,7 +148,7 @@ class EditController extends Controller
 
         $get_delete_image = Edit::where('id', $id)->get('picture');
 
-        $image_data = 'post/'.$get_delete_image[0]->picture;
+        $image_data = $get_delete_image[0]->picture;
 
         $data_exist = $storage->exists($image_data);
 
@@ -172,15 +172,16 @@ class EditController extends Controller
 
     }
 
-    public function update(Request $request, $id)
+    public function post_update(Request $response)
     {
 
-        $default_or_selected = $request->default_or_selected;
-        $username = $request->username;
-        $file = $request->file;
+        $default_or_selected = $response->default_or_selected;
+        $username = $response->username;
+        $id = $response->id;
+        $file = $response->file;
         $storage = Storage::disk('s3');
 
-        $post_file;
+        $post_file = $file;
 
         if($default_or_selected == 'true') {
 
@@ -189,31 +190,37 @@ class EditController extends Controller
 
         } /*else {
         
-            $post_file = $storage->copy('counter/'.$file, 'post/'.$file);
+            //$post_file = $storage->copy('counter/'.$file, 'post/'.$file);
+            //$del_directory = str_replace('counter/', '', $file);
+        
+            //$storage->putFile('post', $del_directory, 'public');
+           // $storage->copy('counter/'.$del_directory, 'post/'.$del_directory);
+            //$post_file = 'post/'.$del_directory;
         //Storage::copy('public/counter/'.$move_file_name, 'public'.$album_or_post.$move_file_name);
-        }*/
+        //}*/
 
         $before_image = Edit::where('id', intval($id))->get('picture');
 
-        if($before_image[0]->picture != 'post/'.$request->image) {
+        if($before_image[0]->picture != $post_file) {
 
-            $storage->delete('post/'.$before_image[0]->picture);
+           $storage->delete($before_image[0]->picture);
             
         }
         
         Edit::where('id', intval($id))
                 ->update([
-                    'username' => $request->username,
+                    'username' => $response->username,
                     'picture' => $post_file,
-                    'my_comment' => $request->comment,
-                    'can_good' => $request->show_good,
-                    'can_comment' => $request->others_comment,
-                    'can_see' => $request->can_see,
-                    'can_top' => $request->to_top,
-                    'can_list' => $request->can_list, 
+                    'my_comment' => $response->comment,
+                    'can_good' => $response->show_good,
+                    'can_comment' => $response->others_comment,
+                    'can_see' => $response->can_see,
+                    'can_top' => $response->to_top,
+                    'can_list' => $response->can_list, 
                 ]);
 
         return["success" => "update_true"];
 
     }
 }
+

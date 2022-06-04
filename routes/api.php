@@ -66,7 +66,7 @@ Route::put('update_reminder/{id}', [ReminderController::class, 'update']);//リ�
 Route::post('edit', [EditController::class, 'store']);//自分のデータを入れる
 Route::get('edit_show', [EditController::class, 'index']);//自分のデータ一覧
 Route::delete('edit_del/{id}', [EditController::class, 'delete']);//自分のデータの削除
-Route::put('edit_update/{id}', [EditController::class, 'update']);//自分のデータのアップデート
+Route::post('edit_update', [EditController::class, 'post_update']);//自分のデータのアップデート
 Route::get('pull_all', [EditController::class, 'allData']);//自分のデータ一覧
 Route::get('only_top', [EditController::class, 'onlyTop']);//トップに表示するデータ
 
