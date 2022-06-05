@@ -119,7 +119,7 @@ Route::post('storage_counter_delete', function() {//カウンター画像を削�
 
     for($i=0; $i < count($array_image_delete); $i++) {
 
-        $storage->delete('counter/'.$array_image_delete[$i]);
+        $storage->delete($array_image_delete[$i]);
 
     }
 
