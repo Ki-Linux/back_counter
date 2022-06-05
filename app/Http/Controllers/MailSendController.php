@@ -44,7 +44,7 @@ class MailSendController extends Controller
                 if(Hash::check($index->same, $name->random)) {
 
                     Mail::to('seima0616@ezweb.ne.jp')
-                        ->send(new MailTest($index->word)); //$index->word'
+                        ->send(new MailTest($index->word));
     
                     return ['result' => true ];
                 }
@@ -68,7 +68,7 @@ class MailSendController extends Controller
         $report_contents = [$id, $reported_name, $user_comment, $from_name, $post_or_comment];
             
         Mail::to('seima0616@ezweb.ne.jp')
-            ->send(new MailReport($report_contents)); //$index->word'
+            ->send(new MailReport($report_contents));
         
         return ['can_delete_or_report' => 'can_report'];
 
@@ -84,7 +84,7 @@ class MailSendController extends Controller
         $contact_contents = [$content, $address];
             
         Mail::to('seima0616@ezweb.ne.jp')
-            ->send(new MailContact($contact_contents)); //$index->word'
+            ->send(new MailContact($contact_contents));
         
         return ['can_contact' => true];
 

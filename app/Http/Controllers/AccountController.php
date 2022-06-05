@@ -159,13 +159,7 @@ class AccountController extends Controller
         $storage->delete($get_before_icon[0]->icon);
 
         //アイコンを追加
-        
         $post_image = $storage->put('account', $response->file, 'public');
-
-        //$data = $storage->get('H23xsZsY3TUlRNLGMxW2Cyf4S4Ht0fWo95W98qiU.png');
-       // $it = $storage->url($data);
-        //$storage->move('22563485.png', 'me/22563485.png');
-        //$response->file->storeAs('public/account/', $file_name);
 
         Account::where('id', $userId)
                             ->update([

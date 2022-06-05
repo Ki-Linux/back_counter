@@ -29,16 +29,14 @@ class EditController extends Controller
             if($default_or_selected == 'true') {
 
                 $post_file = $storage->putFile('post', $file, 'public');
-                //request()->file->storeAs('public'.$album_or_post, $file_name);
     
             } else {
     
                 $del_directory = str_replace('counter/', '', $file);
             
-                //$post_file = $storage->putFile('post', $del_directory, 'public');
                 $storage->copy('counter/'.$del_directory, 'post/'.$del_directory);
                 $post_file = 'post/'.$del_directory;
-            //Storage::copy('public/counter/'.$move_file_name, 'public'.$album_or_post.$move_file_name);
+
             }
 
         }
@@ -135,12 +133,24 @@ class EditController extends Controller
 
             $sql_data = 'id';
             $reference_data = $response->id;
-            $array_send_data = ['id', 'username', 'picture', 'my_comment', 'can_top', 'can_see', 'can_list', 'can_good', 'can_comment', 'created_at'];
+            $array_send_data = [
+                'id', 
+                'username', 
+                'picture', 
+                'my_comment', 
+                'can_top', 
+                'can_see', 
+                'can_list', 
+                'can_good', 
+                'can_comment', 
+                'created_at'
+            ];
 
         }
 
-        $user_content = Edit::where($sql_data, $reference_data)->orderBy('created_at', 'desc')->get($array_send_data);
-
+        $user_content = Edit::where($sql_data, $reference_data)
+                            ->orderBy('created_at', 'desc')
+                            ->get($array_send_data);
 
         return ['contents' => $user_content];
     }
@@ -190,18 +200,8 @@ class EditController extends Controller
         if($default_or_selected == 'true') {
 
             $post_file = $storage->putFile('post', $file, 'public');
-            //request()->file->storeAs('public'.$album_or_post, $file_name);
 
-        } /*else {
-        
-            //$post_file = $storage->copy('counter/'.$file, 'post/'.$file);
-            //$del_directory = str_replace('counter/', '', $file);
-        
-            //$storage->putFile('post', $del_directory, 'public');
-           // $storage->copy('counter/'.$del_directory, 'post/'.$del_directory);
-            //$post_file = 'post/'.$del_directory;
-        //Storage::copy('public/counter/'.$move_file_name, 'public'.$album_or_post.$move_file_name);
-        //}*/
+        }
 
         $before_image = Edit::where('id', intval($id))->get('picture');
 

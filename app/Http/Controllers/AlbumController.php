@@ -41,7 +41,6 @@ class AlbumController extends Controller
         if($default_or_selected == 'true') {
 
             $post_file = $storage->putFile('album', $file, 'public');
-        //request()->file->storeAs('public'.$album_or_post, $file_name);
 
         } else {
 
@@ -50,7 +49,6 @@ class AlbumController extends Controller
             $storage->copy('counter/'.$del_directory, 'album/'.$del_directory);
 
             $post_file = 'album/'.$del_directory;
-            //Storage::copy('public/counter/'.$move_file_name, 'public'.$album_or_post.$move_file_name);
         }
 
         $album = new Album();

@@ -16,9 +16,6 @@ use App\Http\Controllers\CommentController;
 use Illuminate\Support\Facades\Storage;
 
 
-use App\Http\Controllers\tryController;
-
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -104,7 +101,6 @@ Route::post('counter_image', function() {//カウンター画像
         $file_name = request()->$key;
         $post_image = $storage->putFile('counter', $file_name, 'public');
         array_push($array_image, $post_image);
-        //request()->$key->storeAs('public/counter/', $file_name);
 
     }
 
@@ -112,36 +108,6 @@ Route::post('counter_image', function() {//カウンター画像
     
 });
 
-Route::post('album_post_image', function() {//アルバム画像
-
-    $default_or_selected = request()->default_or_selected;
-    $album_or_post = request()->album_or_post;
-    $username = request()->username;
-    $storage = Storage::disk('s3');
-
-    $ru = Album::where('username', $username)->orderBy('created_at', 'desc')->first();
-
-    /*$ru->update([
-                    'image' => request()->file,
-                ]);*/
-
-    if($default_or_selected == 'true') {
-
-        $file_name = request()->file->getClientOriginalName();
-        $storage->put($album_or_post, $file_name);
-        //request()->file->storeAs('public'.$album_or_post, $file_name);
-
-    } else {
-
-        $move_file_name = request()->file;
-        
-        $storage->copy('counter/'.$move_file_name, $album_or_post.$move_file_name);
-        //Storage::copy('public/counter/'.$move_file_name, 'public'.$album_or_post.$move_file_name);
-    }
-    
-    return true;
-    
-});
 
 Route::post('storage_counter_delete', function() {//カウンター画像を削除
 
@@ -154,13 +120,9 @@ Route::post('storage_counter_delete', function() {//カウンター画像を削�
     for($i=0; $i < count($array_image_delete); $i++) {
 
         $storage->delete('counter/'.$array_image_delete[$i]);
-        //Storage::delete('public/counter/'.$array_image_delete[$i]);
+
     }
 
     return true;
 
-
 });
-
-
-Route::get('aws_post', [tryController::class, 'index']);
