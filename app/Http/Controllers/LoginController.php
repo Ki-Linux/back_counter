@@ -61,7 +61,7 @@ class LoginController extends Controller
 
         $token_box->create([
             'account_id' => $item->id,
-            'token' => Hash::make($token),
+            'token' => Hash::make($divide_content[0].$divide_content[1]),
         ]);
 
         $name->create([
@@ -75,28 +75,38 @@ class LoginController extends Controller
 
     public function confirm_token(Request $request)
     {
-
-        $name = $request->username;
-        $divided_back = substr($request->divided_back, 25);
-
-        $get_id = Login::where('username', $name)->get('id');
-
-        $get_front = Name::where('account_id', $get_id[0]->id)->orderBy('id', 'desc')->first('front');
-
-
-        $get_hashed = Token::where('account_id', $get_id[0]->id)->orderBy('id', 'desc')->first('token');
-
-        $united = $get_front->front.$divided_back;
-
         $token_check = false;
 
-        if(Hash::check($united, $get_hashed->token)) {
+        $name = $request->username;
 
-            $token_check = true;
+        $login_name = Login::where('username', $name);
+
+        $judge_name = $login_name->exists();
+
+        if($judge_name){
+
+            $get_id = $login_name->get('id');
+
+            $divided_back = $request->divided_back;
+
+            $get_front = Name::where('account_id', $get_id[0]->id)->orderBy('id', 'desc')->first('front');
+    
+    
+            $get_hashed = Token::where('account_id', $get_id[0]->id)->orderBy('id', 'desc')->first('token');
+    
+            $united = $get_front->front.$divided_back;
+    
+            
+    
+            if(Hash::check($united, $get_hashed->token)) {
+    
+                $token_check = true;
+    
+            }
 
         }
-        
-        return $token_check;
+
+        return ['true_or_false' => $token_check];
 
     }
 
