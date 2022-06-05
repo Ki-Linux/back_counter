@@ -22,21 +22,25 @@ class EditController extends Controller
         $file = $response->file;
         $storage = Storage::disk('s3');
 
-        $post_file;
+        $post_file = $file;
 
-        if($default_or_selected == 'true') {
+        if($file != 'notImg') {
 
-            $post_file = $storage->putFile('post', $file, 'public');
-            //request()->file->storeAs('public'.$album_or_post, $file_name);
+            if($default_or_selected == 'true') {
 
-        } else {
+                $post_file = $storage->putFile('post', $file, 'public');
+                //request()->file->storeAs('public'.$album_or_post, $file_name);
+    
+            } else {
+    
+                $del_directory = str_replace('counter/', '', $file);
+            
+                //$post_file = $storage->putFile('post', $del_directory, 'public');
+                $storage->copy('counter/'.$del_directory, 'post/'.$del_directory);
+                $post_file = 'post/'.$del_directory;
+            //Storage::copy('public/counter/'.$move_file_name, 'public'.$album_or_post.$move_file_name);
+            }
 
-            $del_directory = str_replace('counter/', '', $file);
-        
-            //$post_file = $storage->putFile('post', $del_directory, 'public');
-            $storage->copy('counter/'.$del_directory, 'post/'.$del_directory);
-            $post_file = 'post/'.$del_directory;
-        //Storage::copy('public/counter/'.$move_file_name, 'public'.$album_or_post.$move_file_name);
         }
 
         $edit = new Edit();
