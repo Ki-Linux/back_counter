@@ -44,7 +44,7 @@ Route::post('check_change_password', [LoginController::class,'only_check_passwor
 Route::put('check_change_password/{id}', [LoginController::class,'update']);
 Route::get('get_information', [LoginController::class,'get_user_info']);
 Route::get('get_id', [LoginController::class,'index']);
-Route::get('confirm_token', [LoginController::class,'confirm_token']);
+Route::get('confirm_token', [LoginController::class,'get_confirm']);
 Route::put('post_reminder_update/{id}', [LoginController::class,'post_reminder_update']);
 Route::delete('logout/{id}', [LoginController::class,'delete']);
 

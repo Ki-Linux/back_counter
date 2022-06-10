@@ -43,7 +43,7 @@ class MailSendController extends Controller
                
                 if(Hash::check($index->same, $name->random)) {
 
-                    Mail::to('seima0616@ezweb.ne.jp')
+                    Mail::to($mail)
                         ->send(new MailTest($index->word));
     
                     return ['result' => true ];

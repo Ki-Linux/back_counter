@@ -73,7 +73,7 @@ class LoginController extends Controller
         
     }
 
-    public function confirm_token(Request $request)
+    public function get_confirm(Request $request)
     {
         $token_check = false;
 
