@@ -13,7 +13,7 @@ class AlbumController extends Controller
     public function index(Request $request)//リマインダーのデータを取ってくる
     {
 
-        $album = Album::where('username', $request->username)->get(['id', 'title', 'image', 'selector', 'target', 'present', 'created_at']);
+        $album = Album::where('username', $request->username)->orderBy('created_at', 'desc')->get(['id', 'title', 'image', 'selector', 'target', 'present', 'created_at']);
 
         if(count($album) > 0) {
 
