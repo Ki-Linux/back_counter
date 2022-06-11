@@ -108,7 +108,7 @@ class EditController extends Controller
 
     public function onlyTop(Request $response)
     {
-        $pull_top = Edit::where('can_top', 1)->get(['picture', 'my_comment']);
+        $pull_top = Edit::where('can_top', 1)->orderBy('created_at', 'desc')->get(['picture', 'my_comment']);
 
         return ['topData' => $pull_top];
     }

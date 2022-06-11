@@ -92,9 +92,9 @@ class ReminderController extends Controller
     public function delete(Request $request, $id)
     {
 
-        $user_content = Reminder::where('id', $id)->delete();
+        Reminder::where('id', $id)->delete();
 
-        return $id;
+        return true;
     }
 
 }
