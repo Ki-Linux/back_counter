@@ -1,64 +1,53 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# プラマイカウンターサービス
+[こちらがリンクとなります。](https://plusminuscounter.com).
+ゲストユーザーとしてメールアドレスを(guest@gmail.com),パスワードを(guestguest)としてログインしてください。
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+![image](https://countercontainer.s3.ap-northeast-1.amazonaws.com/readme/%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%BC%E3%83%B3%E3%82%B7%E3%83%A7%E3%83%83%E3%83%88+(9).png)
 
-## About Laravel
+## なぜこのサービスを作ったのか
+生きていると何か物を数えなければならない場面に遭遇することがあると思います。その時に大抵の人は面倒だと感じるだけだとです。そこで数えるという行為自体を楽しめるようにしてしまえば、数えることに億劫にならないのではないかと思いました。そのような理由から、「過程を楽しむ」をコンセプトにこのサイトを作りました。子供から大人まで老若男女問わず楽しめると思います。
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 何ができるのか
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+画像、文字を最大10個まで選択した状態でカウントを行うことができます。
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+アカウント登録することで、達成したものをアルバムとして記録することができます。
 
-## Learning Laravel
+SNSのように共有スペースで記録を共有できます。その際にいいね、コメント、閲覧数の表示の可否を予め選択できるようにしてあります。また、編集によって後に変えることもできます。
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## 使用技術
+フロントエンド：Nuxt.js
+バックエンド: Laravel
+データベース: MySQL
+サーバー: Microsoft Azure
+画像保存先: aws S3
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 開発人数
 
-## Laravel Sponsors
+個人開発
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+## 開発期間
 
-### Premium Partners
+2022年2月 サービス全体の大まかな構成、データベースのテーブル,カラムの定義
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+2022年3月 開発開始
 
-## Contributing
+2022年6月 Azureへデプロイ
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## なぜ、フロントエンドにNuxt.js, バックエンドにLaravelを用いたのか
 
-## Code of Conduct
+元々はVueとNode.jsを使った開発を行っていました。しかし、私はSPAのデメリットとしてSEO対策が難しいことが後にわかりました。そこで、少し調べたところ、SSRというものもあることを知りました。今回はそのSEO対策をきちんとしたかったので、Nuxt.jsを用いました。バックエンドに関しては、Node.jsは元々、JavaScriptがバックエンドとして使えるからという単純な理由で開発に使用していました。しかし、バックエンドを詳しく調べていくうちにLaravelの機能の豊富さに目がいきました。例えば、自動メール送信機能を実装するためにNode.jsではsendgridというAPIサービスを使っていましたが、Laravelはデフォルトでメール送信できる機能が揃っていたので、とても便利でした。
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## このサービスの工夫したポイント
 
-## Security Vulnerabilities
+このサービスを使うのが面倒だと思われたら使ってもらえなくなってしますので、説明や設定を完結にしました。また、ページ遷移を極力なくすことにより、新しい表示をスムーズに行えるようにしました。今回、API通信で行っているため、フロントエンドのみで解決できる問題はバックエンドに任せないようにすることで、無駄な通信をなくしました。
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## 開発で苦労したところ
 
-## License
+今回、Nuxt.jsとLaravelを使った開発は初めてだったので、とにかく調べることが多かったです。
+機能を実装するためのコードを書くことよりもフロントエンドとバックエンドの接続やバックエンドとS3の接続といった接続をするための設定が難しかったです。
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+## 今回の開発を経て思ったこと
+
+自分でこれは無理だとすぐに限界を作らずに新しいことに挑戦してみることは大切だと感じました。努力すれば自分が思っているよりもうまく行くことは今回の開発でも多かったです。既存の知識だけでやろうとせずに新しい技術、知識を積極的に取り入れていく姿勢を今後も持ち続けたいです。
