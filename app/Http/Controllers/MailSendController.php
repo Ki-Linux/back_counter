@@ -27,38 +27,30 @@ class MailSendController extends Controller
      */
 
     public function send(Request $request) {
- 
         $mail = $request->mail;
 
         $login = new Login();
         $letter = new Letter();
 
         $name = Login::where('mail', $mail)->first();
-
         $check_object = Letter::select('*')->get();
 
         if($name) {//メールアドレスがあるとき
-
-            foreach($check_object as $check=>$index) {//繰り返してデータ取得
-               
+            foreach($check_object as $check=>$index) {//繰り返してデータ取得          
                 if(Hash::check($index->same, $name->random)) {
-
                     Mail::to($mail)
                         ->send(new MailTest($index->word));
     
                     return ['result' => true ];
-                }
-    
+                } 
             }
         }
     
         return ['result' => false ];
-
     }
 
     public function report(Request $request) 
     {
-
         $id = $request->id;
         $reported_name = $request->reported_name;
         $user_comment = $request->user_comment;
@@ -71,7 +63,6 @@ class MailSendController extends Controller
             ->send(new MailReport($report_contents));
         
         return ['can_delete_or_report' => 'can_report'];
-
     }
 
 
@@ -80,13 +71,11 @@ class MailSendController extends Controller
 
         $content = $request->content;
         $address = $request->address;
-
         $contact_contents = [$content, $address];
             
         Mail::to('seima0616@ezweb.ne.jp')
             ->send(new MailContact($contact_contents));
         
         return ['can_contact' => true];
-
     } 
 }
