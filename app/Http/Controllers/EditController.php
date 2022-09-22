@@ -16,7 +16,6 @@ class EditController extends Controller
     //
     public function store(Request $response)
     {
-
         $default_or_selected = $response->default_or_selected;
         $username = $response->username;
         $file = $response->file;
@@ -24,11 +23,9 @@ class EditController extends Controller
         $post_file = $file;
 
         if($file != 'notImg') {
-
             if($default_or_selected == 'true') {
 
-                $post_file = $storage->putFile('post', $file, 'public');
-    
+                $post_file = $storage->putFile('post', $file, 'public');    
             } else {
     
                 $del_directory = str_replace('counter/', '', $file);
@@ -83,12 +80,10 @@ class EditController extends Controller
                             ->offset($skip_num)
                             ->get(['id', 'username', 'picture', 'my_comment', 'updated_at']);
 
-        if(count($pull_all) > 0) {
-            
+        if(count($pull_all) > 0) {          
             for($i=0; $i < count($pull_all); $i++) {
 
                 $pull_all[$i]->updated_at = $pull_all[$i]->updated_at->addHour(9);
-
             }
         }
 
@@ -99,7 +94,6 @@ class EditController extends Controller
         }
 
         return ['allData' => $pull_all, 'last_number' => $last_num];
-
     }
 
     public function onlyTop(Request $response)
@@ -151,13 +145,10 @@ class EditController extends Controller
 
     public function delete(Request $request, $id)
     {
-        //削除
+        //awsの画像削除
         $storage = Storage::disk('s3');
-
         $get_delete_image = Edit::where('id', $id)->get('picture');
-
         $image_data = $get_delete_image[0]->picture;
-
         $data_exist = $storage->exists($image_data);
 
         if($data_exist) {
@@ -166,7 +157,6 @@ class EditController extends Controller
         }
 
         Edit::where('id', $id)->delete();
-
         $delete_sql = [new Point(), new View(), new Comment()];
 
         foreach($delete_sql as $sql) {
