@@ -12,49 +12,35 @@ class AlbumController extends Controller
     //
     public function index(Request $request)//リマインダーのデータを取ってくる
     {
-
         $album = Album::where('username', $request->username)
             ->orderBy('created_at', 'desc')
             ->get(['id', 'title', 'image', 'selector', 'target', 'present', 'created_at']);
 
         if(count($album) > 0) {
-
             for($i=0; $i < count($album); $i++) {
-
                 $album[$i]->created_at = $album[$i]->created_at->addHour(9);
-
             }
         }
 
         return ['album_content' => $album];
-
     }
 
     public function store(Request $request)//リマインダーのデータを取ってくる
     {
         $default_or_selected = $request->default_or_selected;
-
         $file = $request->file;
-
         $post_file;
-
         $storage = Storage::disk('s3');
 
         if($default_or_selected == 'true') {
-
             $post_file = $storage->putFile('album', $file, 'public');
-
         } else {
-
-            $del_directory = str_replace('counter/', '', $file);
-        
+            $del_directory = str_replace('counter/', '', $file);        
             $storage->copy('counter/'.$del_directory, 'album/'.$del_directory);
-
             $post_file = 'album/'.$del_directory;
         }
 
         $album = new Album();
-
         $album->create([
             'username' => $request->username,
             'image' => $post_file,
@@ -65,17 +51,13 @@ class AlbumController extends Controller
         ]);
 
         return true;
-
     }
 
     public function delete(Request $request, $id)//データを消す
     {
-
         //前回のアイコンを削除
         $get_before_image = Album::where('id', $id)->get('image');
-
         $storage = Storage::disk('s3');
-
         $storage->delete($get_before_image[0]->image);
 
         Album::where('id', $id)->delete();
