@@ -22,7 +22,6 @@ class ReminderController extends Controller
         $reminder = new Reminder();
 
         if($titlePost != "" && $contentPost != "") {
-
             if($userPost === "*") {
 
                 $logins_username = Login::select('*')->get();
@@ -36,8 +35,7 @@ class ReminderController extends Controller
                     
                 }
 
-                return ['resTitle' => $titlePost, 'resContent' => $contentPost, 'resName' => 'name'];
-                
+                return ['resTitle' => $titlePost, 'resContent' => $contentPost, 'resName' => 'name'];                
             }
 
             $reminder->create([
@@ -50,15 +48,13 @@ class ReminderController extends Controller
             return ['resTitle' => $titlePost, 'resContent' => $contentPost, 'resName' => $userPost];
         }
 
-        return ['resTitle' => 'can not send', 'resContent' => '', 'resName' => ''];
-        
+        return ['resTitle' => 'can not send', 'resContent' => '', 'resName' => ''];        
     }
 
     public function index(Request $request)//リマインダーのデータを取ってくる
     {
 
         $userName = $request->username;
-
 
         $reminder = Reminder::where('username', $userName)->get(['id', 'title', 'content', 'watched','updated_at']);
      
@@ -69,12 +65,9 @@ class ReminderController extends Controller
                 $reminder[$i]->updated_at = $reminder[$i]->updated_at->addHour(9);
         
             }
-
         }
         
-        
         return ['name' => $reminder];
-
     }
 
     public function update(Request $request, $id)
@@ -82,19 +75,15 @@ class ReminderController extends Controller
 
         $user_content = Reminder::where('id', $id)
                             ->update([
-                                'watched' => $request->change_watched,
-                                
+                                'watched' => $request->change_watched,                             
                             ]);
         return $id;
-
     }
 
     public function delete(Request $request, $id)
     {
 
         Reminder::where('id', $id)->delete();
-
         return true;
     }
-
 }
