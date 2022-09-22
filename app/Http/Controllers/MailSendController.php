@@ -88,7 +88,5 @@ class MailSendController extends Controller
         
         return ['can_contact' => true];
 
-    }
-
-    
+    } 
 }
