@@ -22,10 +22,10 @@ class DetailController extends Controller
 
         $my_name = $response->my_name;
 
-
         $get_icon = Account::where('username', $name)->get('icon');
 
-        $get_can_comment_see = Edit::where('id', intval($id))->get(['can_good', 'can_see', 'can_comment']);
+        $get_can_comment_see = Edit::where('id', intval($id))
+                                        ->get(['can_good', 'can_see', 'can_comment']);
 
         $get_point = [];
 
