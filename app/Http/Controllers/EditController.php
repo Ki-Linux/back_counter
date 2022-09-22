@@ -21,7 +21,6 @@ class EditController extends Controller
         $username = $response->username;
         $file = $response->file;
         $storage = Storage::disk('s3');
-
         $post_file = $file;
 
         if($file != 'notImg') {
@@ -33,12 +32,9 @@ class EditController extends Controller
             } else {
     
                 $del_directory = str_replace('counter/', '', $file);
-            
                 $storage->copy('counter/'.$del_directory, 'post/'.$del_directory);
                 $post_file = 'post/'.$del_directory;
-
             }
-
         }
 
         $edit = new Edit();
@@ -117,18 +113,16 @@ class EditController extends Controller
     {
 
         $edit = new Edit();
-
         $sql_data;
         $reference_data;
         $array_send_data;
-    
 
         if($response->target == 'list') {
 
            $sql_data = 'username';
            $reference_data = $response->username;
            $array_send_data = ['id', 'picture', 'my_comment', 'can_see', 'created_at'];
-
+            
         } else if($response->target == 'edit') {
 
             $sql_data = 'id';
@@ -145,7 +139,7 @@ class EditController extends Controller
                 'can_comment', 
                 'created_at'
             ];
-
+            
         }
 
         $user_content = Edit::where($sql_data, $reference_data)
@@ -169,7 +163,6 @@ class EditController extends Controller
         if($data_exist) {
 
             $storage->delete($image_data);
-
         }
 
         Edit::where('id', $id)->delete();
@@ -179,11 +172,9 @@ class EditController extends Controller
         foreach($delete_sql as $sql) {
 
             $sql->where('edit_id', $id)->delete();
-
         }
         
         return ["can_delete" => true];
-
     }
 
     public function post_update(Request $response)
@@ -200,7 +191,6 @@ class EditController extends Controller
         if($default_or_selected == 'true') {
 
             $post_file = $storage->putFile('post', $file, 'public');
-
         }
 
         $before_image = Edit::where('id', intval($id))->get('picture');
@@ -208,7 +198,6 @@ class EditController extends Controller
         if($before_image[0]->picture != $post_file) {
 
            $storage->delete($before_image[0]->picture);
-            
         }
         
         Edit::where('id', intval($id))
@@ -224,7 +213,5 @@ class EditController extends Controller
                 ]);
 
         return["success" => "update_true"];
-
     }
 }
-
