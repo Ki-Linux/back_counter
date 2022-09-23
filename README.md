@@ -1,4 +1,4 @@
-# プラマイカウンターサービス
+# プラマイカウンター
 [こちらがリンクとなります。](https://plusminuscounter.com).
 ゲストユーザーとしてメールアドレスを(guest@gmail.com),パスワードを(guestguest)としてログインしてください。
 
